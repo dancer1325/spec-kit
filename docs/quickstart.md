@@ -59,33 +59,29 @@
 
 * | claude chat
   * `/speckit.clarify WriteToIdentifyAndResolveAmbiguitiesInYourSpecification`
-
-```bash
-/speckit.clarify Focus on security and performance requirements.
-```
+    * check that it 
+      * creates specs/*/spec.md
 
 ### create a technical implementation plan
 
 * | claude chat
   * `/speckit.plan provideYourTechStackAndArchiteChoices`
-
-```bash
-/speckit.plan The application uses Vite with minimal number of libraries
-* Use vanilla HTML, CSS, and JavaScript as much as possible
-* Images are not uploaded anywhere and metadata is stored in a local SQLite database.
-```
+    * check that it 
+      * creates specs/*/plan.md
 
 ### break down into tasks
 
 * | claude chat
   * `/speckit.tasks` 
     * FROM your implementation plan, create an actionable task list 
+    * create specs/*/tasks.md
 
 ### validate the plan
 
 * OPTIONAL
 * | claude chat
   * `/speckit.analyze`
+    * if there are something to improve -> pass yes -- as -- input
 
 ### execute implementation
 
@@ -95,8 +91,9 @@
     * build your feature -- based on the -- plan
 
 ## Detailed Example: Building Taskify
-
-Here's a complete example of building a team productivity platform:
+* TODO: relocate
+* goal
+  * build a team productivity platform
 
 ### Step 1: Define Constitution
 
