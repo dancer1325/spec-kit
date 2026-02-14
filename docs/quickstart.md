@@ -8,6 +8,8 @@
     * AUTOMATICALLY detect the active feature -- based on -- your current Git branch (e.g., `001-feature-name`)
       * if you want to switch BETWEEN DIFFERENT specifications -> switch Git branches
 
+* [SDD](../spec-driven.md)
+
 ### install Specify CLI
 
 #### Option 1: Persistent Installation
@@ -53,10 +55,19 @@
       * created "specs/"
       * branched
 
-### 4
-* Create a technical implementation plan
+### refine the spec
 
-Use the **`/speckit.plan`** command to provide your tech stack and architecture choices.
+* | claude chat
+  * `/speckit.clarify WriteToIdentifyAndResolveAmbiguitiesInYourSpecification`
+
+```bash
+/speckit.clarify Focus on security and performance requirements.
+```
+
+### create a technical implementation plan
+
+* | claude chat
+  * `/speckit.plan provideYourTechStackAndArchiteChoices`
 
 ```bash
 /speckit.plan The application uses Vite with minimal number of libraries
@@ -64,80 +75,24 @@ Use the **`/speckit.plan`** command to provide your tech stack and architecture 
 * Images are not uploaded anywhere and metadata is stored in a local SQLite database.
 ```
 
-### 5
-* Break down into tasks
+### break down into tasks
 
-Use **`/speckit.tasks`** to create an actionable task list from your implementation plan.
+* | claude chat
+  * `/speckit.tasks` 
+    * FROM your implementation plan, create an actionable task list 
 
-```bash
-/speckit.tasks
-```
+### validate the plan
 
-### 6
-* Execute implementation
+* OPTIONAL
+* | claude chat
+  * `/speckit.analyze`
 
-Use **`/speckit.implement`** to execute all tasks and build your feature according to the plan.
+### execute implementation
 
-```bash
-/speckit.implement
-```
-
-For detailed step-by-step instructions, see our [comprehensive guide](./spec-driven.md).
-
-## The 6-Step Process
-
-### Step 2: Define Your Constitution
-
-**In your AI Agent's chat interface**, use the `/speckit.constitution` slash command to 
-establish the core rules and principles for your project. You should provide your project's specific principles as arguments.
-
-```markdown
-/speckit.constitution This project follows a "Library-First" approach. All features must be implemented as standalone libraries first. We use TDD strictly. We prefer functional programming patterns.
-```
-
-### Step 3: Create the Spec
-
-**In the chat**, use the `/speckit.specify` slash command to describe what you want to build. Focus on the **what** and **why**, not the tech stack.
-
-```markdown
-/speckit.specify Build an application that can help me organize my photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page. Albums are never in other nested albums. Within each album, photos are previewed in a tile-like interface.
-```
-
-### Step 4: Refine the Spec
-
-**In the chat**, use the `/speckit.clarify` slash command to identify and resolve ambiguities in your specification. You can provide specific focus areas as arguments.
-
-```bash
-/speckit.clarify Focus on security and performance requirements.
-```
-
-### Step 5: Create a Technical Implementation Plan
-
-**In the chat**, use the `/speckit.plan` slash command to provide your tech stack and architecture choices.
-
-```markdown
-/speckit.plan The application uses Vite with minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere and metadata is stored in a local SQLite database.
-```
-
-### Step 6: Break Down and Implement
-
-**In the chat**, use the `/speckit.tasks` slash command to create an actionable task list.
-
-```markdown
-/speckit.tasks
-```
-
-Optionally, validate the plan with `/speckit.analyze`:
-
-```markdown
-/speckit.analyze
-```
-
-Then, use the `/speckit.implement` slash command to execute the plan.
-
-```markdown
-/speckit.implement
-```
+* | claude chat
+  * `/speckit.implement`
+    * execute ALL tasks
+    * build your feature -- based on the -- plan
 
 ## Detailed Example: Building Taskify
 
@@ -215,8 +170,6 @@ Finally, implement the solution:
 - **Validate** the plan before coding begins
 - **Let the AI agent handle** the implementation details
 
-## Next Steps
+## Notes
 
-- Read the [complete methodology](../spec-driven.md) for in-depth guidance
-- Check out [more examples](../templates) in the repository
-- Explore the [source code on GitHub](https://github.com/github/spec-kit)
+- _Examples:_ [here](../templates)
