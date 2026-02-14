@@ -1,37 +1,95 @@
 # Quick Start Guide
 
-This guide will help you get started with Spec-Driven Development using Spec Kit.
+## 6-Step Process
 
-> [!NOTE]
-> All automation scripts now provide both Bash (`.sh`) and PowerShell (`.ps1`) variants. The `specify` CLI auto-selects based on OS unless you pass `--script sh|ps`.
+* **Context Awareness**
+  * Spec Kit commands 
+    * placed | .yourChosenAI/commands/
+    * AUTOMATICALLY detect the active feature -- based on -- your current Git branch (e.g., `001-feature-name`)
+      * if you want to switch BETWEEN DIFFERENT specifications -> switch Git branches
+
+### install Specify CLI
+
+#### Option 1: Persistent Installation
+* 👀recommended👀
+
+* steps
+  * install [uv](https://docs.astral.sh/uv/getting-started/installation/)
+    * `curl -LsSf https://astral.sh/uv/install.sh | sh`
+    * `echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc`
+  * `uv tool install specify-cli --from git+https://github.com/github/spec-kit.git`
+  * `specify version`
+    * check that it's installed
+  * [initialize the project](installation.md#initialize-a-new-project)
+  * `specify check`
+    * check the installed tools
+
+* pros
+  - Tool stays installed & available | PATH
+  - NO need to create shell aliases
+  - Better tool management: `uv tool list`, `uv tool upgrade`, `uv tool uninstall`
+  - Cleaner shell configuration
+
+#### Option 2: 1-time Usage
+
+* steps
+  * `uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME>`
+
+### establish project principles
+
+* steps
+  * | your project directory,
+    * launch your AI assistant 
+  * | AI assistant,
+    * `/speckit.constitution WriteCommandToCreateYourProject'sGoverningPrinciplesAndDevelopmentGuidelines`
+      * modify .specify/memory/constitution.md
+
+### create the spec
+
+* | claude chat
+  * `/speckit.specify describeWhatAndWhyToBuild`
+    * ❌NO specify the tech stack❌
+    * check that it 
+      * created "specs/"
+      * branched
+
+### 4
+* Create a technical implementation plan
+
+Use the **`/speckit.plan`** command to provide your tech stack and architecture choices.
+
+```bash
+/speckit.plan The application uses Vite with minimal number of libraries
+* Use vanilla HTML, CSS, and JavaScript as much as possible
+* Images are not uploaded anywhere and metadata is stored in a local SQLite database.
+```
+
+### 5
+* Break down into tasks
+
+Use **`/speckit.tasks`** to create an actionable task list from your implementation plan.
+
+```bash
+/speckit.tasks
+```
+
+### 6
+* Execute implementation
+
+Use **`/speckit.implement`** to execute all tasks and build your feature according to the plan.
+
+```bash
+/speckit.implement
+```
+
+For detailed step-by-step instructions, see our [comprehensive guide](./spec-driven.md).
 
 ## The 6-Step Process
 
-> [!TIP]
-> **Context Awareness**: Spec Kit commands automatically detect the active feature based on your current Git branch (e.g., `001-feature-name`). To switch between different specifications, simply switch Git branches.
-
-### Step 1: Install Specify
-
-**In your terminal**, run the `specify` CLI command to initialize your project:
-
-```bash
-# Create a new project directory
-uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME>
-
-# OR initialize in the current directory
-uvx --from git+https://github.com/github/spec-kit.git specify init .
-```
-
-Pick script type explicitly (optional):
-
-```bash
-uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME> --script ps  # Force PowerShell
-uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME> --script sh  # Force POSIX shell
-```
-
 ### Step 2: Define Your Constitution
 
-**In your AI Agent's chat interface**, use the `/speckit.constitution` slash command to establish the core rules and principles for your project. You should provide your project's specific principles as arguments.
+**In your AI Agent's chat interface**, use the `/speckit.constitution` slash command to 
+establish the core rules and principles for your project. You should provide your project's specific principles as arguments.
 
 ```markdown
 /speckit.constitution This project follows a "Library-First" approach. All features must be implemented as standalone libraries first. We use TDD strictly. We prefer functional programming patterns.

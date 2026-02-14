@@ -2,33 +2,35 @@
 
 ## Prerequisites
 
-- **Linux/macOS** (or Windows; PowerShell scripts now supported without WSL)
-- AI coding agent: [Claude Code](https://www.anthropic.com/claude-code), [GitHub Copilot](https://code.visualstudio.com/), [Codebuddy CLI](https://www.codebuddy.ai/cli) or [Gemini CLI](https://github.com/google-gemini/gemini-cli)
+- OS
+  - Linux
+  - macOS
+  - Windows
+    - RIGHT NOW (BUT NOT from the scratch)
+      - Reason:🧠PowerShell scripts were NOT supported🧠
+- AI coding agent
+  - [Claude Code](https://www.anthropic.com/claude-code)
+  - [GitHub Copilot](https://code.visualstudio.com/)
+  - [Codebuddy CLI](https://www.codebuddy.ai/cli) 
+  - [Gemini CLI](https://github.com/google-gemini/gemini-cli)
 - [uv](https://docs.astral.sh/uv/) for package management
 - [Python 3.11+](https://www.python.org/downloads/)
 - [Git](https://git-scm.com/downloads)
 
-## Installation
-
-### Initialize a New Project
-
-The easiest way to get started is to initialize a new project:
+## Initialize a NEW Project
 
 ```bash
+# 1. <PROJECT_NAME>
 uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME>
-```
 
-Or initialize in the current directory:
-
-```bash
+# 2. | CURRENT directory
 uvx --from git+https://github.com/github/spec-kit.git specify init .
-# or use the --here flag
+
+# 3. --here   == 2.
 uvx --from git+https://github.com/github/spec-kit.git specify init --here
 ```
 
-### Specify AI Agent
-
-You can proactively specify your AI agent during initialization:
+### + specify AI Agent -- via -- `--ai`
 
 ```bash
 uvx --from git+https://github.com/github/spec-kit.git specify init <project_name> --ai claude
@@ -37,46 +39,49 @@ uvx --from git+https://github.com/github/spec-kit.git specify init <project_name
 uvx --from git+https://github.com/github/spec-kit.git specify init <project_name> --ai codebuddy
 ```
 
-### Specify Script Type (Shell vs PowerShell)
+### + specify script type (Shell vs PowerShell) -- via -- `--script`
 
-All automation scripts now have both Bash (`.sh`) and PowerShell (`.ps1`) variants.
-
-Auto behavior:
-
-- Windows default: `ps`
-- Other OS default: `sh`
-- Interactive mode: you'll be prompted unless you pass `--script`
-
-Force a specific script type:
+* automation scripts
+  * support
+    * Bash (`.sh`)
+    * PowerShell (`.ps1`)
+  * AUTOMATICALLY choose -- based on -- OS
+    * Windows: `ps`
+    * Rest: `sh`
+  * if you want to specify -> pass `--script sh|ps`
 
 ```bash
 uvx --from git+https://github.com/github/spec-kit.git specify init <project_name> --script sh
 uvx --from git+https://github.com/github/spec-kit.git specify init <project_name> --script ps
 ```
 
-### Ignore Agent Tools Check
+### + ignore Agent Tools check -- via -- `--ignore-agent-tools`
 
-If you prefer to get the templates without checking for the right tools:
+* == get the templates / ❌NO check if you fulfill the [prerequisites](#prerequisites)❌
+  * _Example:_ if you do NOT have AI agent -> NO error
 
 ```bash
 uvx --from git+https://github.com/github/spec-kit.git specify init <project_name> --ai claude --ignore-agent-tools
 ```
 
-## Verification
+### verification
 
-After initialization, you should see the following commands available in your AI agent:
-
-- `/speckit.specify` - Create specifications
-- `/speckit.plan` - Generate implementation plans  
-- `/speckit.tasks` - Break down into actionable tasks
-
-The `.specify/scripts` directory will contain both `.sh` and `.ps1` scripts.
+* | AFTER initialization, 
+  * commands / AVAILABLE | your AI agent
+    - `/speckit.specify` 
+      - Create specifications
+    - `/speckit.plan` 
+      - Generate implementation plans  
+    - `/speckit.tasks` 
+      - Break down into actionable tasks
+  * ".specify/scripts/"
+    * == ALL `.sh` & `.ps1` scripts
 
 ## Troubleshooting
 
-### Git Credential Manager on Linux
+### Git Credential Manager | Linux
 
-If you're having issues with Git authentication on Linux, you can install Git Credential Manager:
+* TODO: If you're having issues with Git authentication on Linux, you can install Git Credential Manager:
 
 ```bash
 #!/usr/bin/env bash

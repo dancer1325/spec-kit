@@ -1,19 +1,18 @@
 # Spec Kit
 
-*Build high-quality software faster.*
-
-**An effort to allow organizations to focus on product scenarios rather than writing undifferentiated code with the help of Spec-Driven Development.**
-
-## What is Spec-Driven Development?
-
-Spec-Driven Development **flips the script** on traditional software development. For decades, code has been king — specifications were just scaffolding we built and discarded once the "real work" of coding began. Spec-Driven Development changes this: **specifications become executable**, directly generating working implementations rather than just guiding them.
-
 ## Getting Started
 
 - [Installation Guide](installation.md)
 - [Quick Start Guide](quickstart.md)
 - [Upgrade Guide](upgrade.md)
 - [Local Development](local-development.md)
+
+## 🤔 What is Spec-Driven Development (SDD)?
+
+* SDD
+  * 💡specifications become executable💡
+    * == ⭐️specifications generate working implementations (rather than just guiding them)⭐️  
+  * ❌!= traditional software development❌
 
 ## Core Philosophy
 
@@ -57,11 +56,3 @@ Our research and experimentation focus on:
 - Validate the concept of parallel implementation exploration
 - Provide robust iterative feature development workflows
 - Extend processes to handle upgrades and modernization tasks
-
-## Contributing
-
-Please see our [Contributing Guide](https://github.com/github/spec-kit/blob/main/CONTRIBUTING.md) for information on how to contribute to this project.
-
-## Support
-
-For support, please check our [Support Guide](https://github.com/github/spec-kit/blob/main/SUPPORT.md) or open an issue on GitHub.
