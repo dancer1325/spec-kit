@@ -1,5 +1,10 @@
 # Specification-Driven Development (SDD)
 
+* SDD
+  * 💡specifications become executable💡
+    * == ⭐️specifications generate working implementations (rather than just guiding them)⭐️  
+  * ❌!= traditional software development❌
+
 ## The Power Inversion
 
 For decades, code has been king. Specifications served code—they were the scaffolding we built and then discarded once the "real work" of coding began. We wrote PRDs to guide development, created design docs to inform implementation, drew diagrams to visualize architecture. But these were always subordinate to the code itself. Code was truth. Everything else was, at best, good intentions. Code was the source of truth, and as it moved forward, specs rarely kept pace. As the asset (code) and the implementation are one, it's not easy to have a parallel implementation without trying to build from the code.
@@ -45,6 +50,15 @@ SDD can support what-if/simulation experiments: "If we need to re-implement or c
 SDD transforms requirement changes from obstacles into normal workflow. When specifications drive implementation, pivots become systematic regenerations rather than manual rewrites. Change a core requirement in the PRD, and affected implementation plans update automatically. Modify a user story, and corresponding API endpoints regenerate. This isn't just about initial development—it's about maintaining engineering velocity through inevitable changes.
 
 ## Core Principles
+
+Spec-Driven Development is a structured process that emphasizes:
+
+- **Intent-driven development** where specifications define the "*what*" before the "*how*"
+- **Rich specification creation** using guardrails and organizational principles
+- **Multi-step refinement** rather than one-shot code generation from prompts
+- **Heavy reliance** on advanced AI model capabilities for specification interpretation
+
+---
 
 **Specifications as the Lingua Franca**: The specification becomes the primary artifact. Code becomes its expression in a particular language and framework. Maintaining software means evolving specifications.
 

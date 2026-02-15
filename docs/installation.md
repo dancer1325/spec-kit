@@ -1,6 +1,6 @@
 # Installation Guide
 
-## Prerequisites
+## ⚠️Prerequisites⚠️
 
 - OS
   - Linux
@@ -8,12 +8,9 @@
   - Windows
     - RIGHT NOW (BUT NOT from the scratch)
       - Reason:🧠PowerShell scripts were NOT supported🧠
-- AI coding agent
-  - [Claude Code](https://www.anthropic.com/claude-code)
-  - [GitHub Copilot](https://code.visualstudio.com/)
-  - [Codebuddy CLI](https://www.codebuddy.ai/cli) 
-  - [Gemini CLI](https://github.com/google-gemini/gemini-cli)
-- [uv](https://docs.astral.sh/uv/) for package management
+- [AI coding agent](supportedAIAgents.md)
+- [uv](https://docs.astral.sh/uv/) 
+  - Reason:🧠package management🧠
 - [Python 3.11+](https://www.python.org/downloads/)
 - [Git](https://git-scm.com/downloads)
 

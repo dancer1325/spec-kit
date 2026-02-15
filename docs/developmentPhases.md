@@ -1,0 +1,6 @@
+
+| Phase                                    | Focus                       | Key Activities                                                                                                                                          |
+| ---------------------------------------- |-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **0-to-1 Development** ("Greenfield")    | Generate -- from -- scratch | <ul><li>high-level requirements</li><li>Generate specifications</li><li>Plan implementation steps</li><li>Build production-ready applications</li></ul> |
+| **Creative Exploration**                 | Parallel implementations    | <ul><li>Explore diverse solutions</li><li>Support MULTIPLE technology stacks & architectures</li><li>Experiment -- with -- UX patterns</li></ul>        |
+| **Iterative Enhancement** ("Brownfield") | Brownfield modernization    | <ul><li>Add features iteratively</li><li>Modernize legacy systems</li><li>Adapt processes</li></ul>                                                     |
