@@ -90,27 +90,9 @@
     * execute ALL tasks
     * build your feature -- based on the -- plan
 
-## Detailed Example: Building Taskify
-* TODO: relocate
-
-
-
-### Step 6: Validate and Implement
-* TODO: 
-Have your AI agent audit the implementation plan using `/speckit.analyze`:
-
-```bash
-/speckit.analyze
-```
-
-Finally, implement the solution:
-
-```bash
-/speckit.implement
-```
-
 ## Key Principles
 
+* TODO: 
 - **Be explicit** about what you're building and why
 - **Don't focus on tech stack** during specification phase
 - **Iterate and refine** your specifications before implementation
