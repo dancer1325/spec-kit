@@ -1,4 +1,5 @@
 # First example
-* rest of steps | "001-photo-albums" branch
+* rest of steps | [spec-kit-firstExample repo](https://github.com/dancer1325/spec-kit-firstExample)
 
-# Detailed example
+# Second example
+* [spec-kit-secondExample](https://github.com/dancer1325/spec-kit-secondExample)
