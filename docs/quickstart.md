@@ -7,6 +7,7 @@
     * placed | .yourChosenAI/commands/
     * AUTOMATICALLY detect the active feature -- based on -- your current Git branch (e.g., `001-feature-name`)
       * if you want to switch BETWEEN DIFFERENT specifications -> switch Git branches
+      * TODO: unless you pass `--script sh|ps`
 
 * ⭐️'s key principles⭐️
   - **Be explicit** -- about -- WHAT you're building & why
@@ -17,6 +18,15 @@
     - **Validate** the plan
   - **Let the AI agent handle** the implementation details
   - [SDD](../spec-driven.md)
+
+TODO: After installing Spec Kit and defining your project constitution, quick experiments can use the lean feature path: `/speckit.specify` -> `/speckit.plan` -> `/speckit.tasks` -> `/speckit.implement`. For production features or any work with meaningful ambiguity, treat `/speckit.clarify`, `/speckit.checklist`, and `/speckit.analyze` as regular quality gates:
+
+```text
+/speckit.constitution -> /speckit.specify -> /speckit.clarify -> /speckit.checklist -> /speckit.plan -> /speckit.tasks -> /speckit.analyze -> /speckit.implement
+```
+
+Use `/speckit.clarify` to reduce requirement ambiguity before planning, `/speckit.checklist` to validate requirements quality before planning, and `/speckit.analyze` to check spec/plan/task consistency before implementation starts. You can repeat `/speckit.analyze` after implementation as an extra review, but keep the first analysis before `/speckit.implement` so gaps are caught while the plan and tasks can still be adjusted.
+
 
 ### 0. install Specify CLI
 
@@ -132,7 +142,8 @@
 
 ## Notes
 
-- _Examples:_
-  - [of Spec's steps](../templates)
-  - [firstProject](https://github.com/dancer1325/spec-kit-firstExample)
-  - [secondProject](https://github.com/dancer1325/spec-kit-secondExample)
+* [complete methodology](/spec-driven.md)
+* _Examples:_
+  * [of Spec's steps](../templates)
+  * [firstProject](https://github.com/dancer1325/spec-kit-firstExample)
+  * [secondProject](https://github.com/dancer1325/spec-kit-secondExample)
