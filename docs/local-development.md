@@ -1,20 +1,20 @@
 # Local Development Guide
 
-This guide shows how to iterate on the `specify` CLI locally without publishing a release or committing to `main` first.
+* goal
+  * how to iterate | `specify` CLI locally WITHOUT
+    * publishing a release, NOR
+    * committing | `main` first
 
-> Scripts now have both Bash (`.sh`) and PowerShell (`.ps1`) variants. The CLI auto-selects based on OS unless you pass `--script sh|ps`.
-
-## 1. Clone and Switch Branches
-
-```bash
-git clone https://github.com/github/spec-kit.git
-cd spec-kit
-# Work on a feature branch
-git checkout -b your-feature-branch
-```
+* Scripts
+  * ALLOWED variants    
+    * Bash (`.sh`)
+    * PowerShell (`.ps1`)
+  * chosen -- based on -- OS
+    * ⚠️if you want to specify -> pass `--script sh|ps` flag⚠️
 
 ## 2. Run the CLI Directly (Fastest Feedback)
 
+TODO: 
 You can execute the CLI via the module entrypoint without installing anything:
 
 ```bash

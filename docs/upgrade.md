@@ -1,22 +1,17 @@
 # Upgrade Guide
 
-> You have Spec Kit installed and want to upgrade to the latest version to get new features, bug fixes, or updated slash commands. This guide covers both upgrading the CLI tool and updating your project files.
-
----
+* goal
+  * upgrade Spec Kit (CLI + your project files) -- to -- the latest version
 
 ## Quick Reference
 
-| What to Upgrade | Command | When to Use |
-|----------------|---------|-------------|
-| **CLI Tool Only** | `uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git` | Get latest CLI features without touching project files |
-| **Project Files** | `specify init --here --force --ai <your-agent>` | Update slash commands, templates, and scripts in your project |
-| **Both** | Run CLI upgrade, then project update | Recommended for major version updates |
+| What to Upgrade   | Command                                                                                 | When to Use                                                    |
+|-------------------|-----------------------------------------------------------------------------------------|----------------------------------------------------------------|
+| ONLY **CLI**      | `uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git` | Get latest CLI features WITHOUT touching project files         |
+| **Project Files** | `specify init --here --force --ai <your-agent>`                                         | \| your project, update slash commands, templates, and scripts |
+| **BOTH**          | Run CLI upgrade + update the project                                                    | major version updates                                          |
 
----
-
-## Part 1: Upgrade the CLI Tool
-
-The CLI tool (`specify`) is separate from your project files. Upgrade it to get the latest features and bug fixes.
+## Part 1: Upgrade the CLI Tool -- `specify` --
 
 ### If you installed with `uv tool install`
 

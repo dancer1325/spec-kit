@@ -2,17 +2,17 @@
 
 ## ⚠️Prerequisites⚠️
 
-- OS
-  - Linux
-  - macOS
-  - Windows
-    - RIGHT NOW (BUT NOT from the scratch)
-      - Reason:🧠PowerShell scripts were NOT supported🧠
-- [AI coding agent](supportedAIAgents.md)
-- [uv](https://docs.astral.sh/uv/) 
-  - Reason:🧠package management🧠
-- [Python 3.11+](https://www.python.org/downloads/)
-- [Git](https://git-scm.com/downloads)
+* OS
+  * Linux
+  * macOS
+  * Windows
+    * RIGHT NOW (BUT NOT from the scratch)
+      * Reason:🧠PowerShell scripts were NOT supported🧠
+* [AI coding agent](supportedAIAgents.md)
+* [uv](https://docs.astral.sh/uv/) 
+  * Reason:🧠package management🧠
+* [Python 3.11+](https://www.python.org/downloads/)
+* [Git](https://git-scm.com/downloads)
 
 ## Initialize a NEW Project
 

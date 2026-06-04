@@ -50,14 +50,16 @@
     * asks clarifying questions
     * identifies edge cases
     * helps define precise acceptance criteria
-
-TODO:
-When a product manager updates acceptance criteria, implementation plans automatically flag affected technical decisions
-* When an architect discovers a better pattern, the PRD updates to reflect new possibilities.
-
-Throughout this specification process, research agents gather critical context
-* They investigate library compatibility, performance benchmarks, and security implications
-* Organizational constraints are discovered and applied automatically—your company's database standards, authentication requirements, and deployment policies seamlessly integrate into every specification.
+* triggers
+  * you update the PRD (== | github-speck-kit, "spec.md") -> impact the plan (== | github-speck-kit, "plan.md")
+    * _Example:_ product manager updates acceptance criteria -> technical plan AUTOMATICALLY flag the affected technical decisions
+  * you update the plan (== | github-speck-kit, "plan.md") -> impact the PRD (== | github-speck-kit, "spec.md") 
+    * _Example:_ architect discovers a better pattern -> the PRD is updated to reflect new possibilities.
+* | ALL specification process,
+  * research agents gather critical context
+    * _Examples:_ library compatibility, performance benchmarks, and security implications
+    * ❌!= spec-kit acts❌
+      * Reason:🧠ONLY | plan 🧠
 
 From the PRD, AI generates implementation plans that map requirements to technical decisions
 * Every technology choice has documented rationale
@@ -79,26 +81,22 @@ The feedback loop extends beyond initial development
 
 ## Why SDD Matters Now
 
-Three trends make SDD not just possible but necessary:
-
 * AI capabilities
   * can reliably generate -- , through natural language specifications, --  working code
-* TODO: This isn't about replacing developers—it's about amplifying their effectiveness by automating the mechanical translation from specification to implementation
-* It can amplify exploration and creativity, support "start-over" easily, and support addition, subtraction, and critical thinking.
+  * amplify 
+    * developer's effectiveness
+      * Reason:🧠specification is translated -- to -- implementation🧠
+    * exploration & creativity
 
-Second, software complexity continues to grow exponentially
-* Modern systems integrate dozens of services, frameworks, and dependencies
-* Keeping all these pieces aligned with original intent through manual processes becomes increasingly difficult
-* SDD provides systematic alignment through specification-driven generation
-* Frameworks may evolve to provide AI-first support, not human-first support, or architect around reusable components.
+* software complexity keeps on EXPONENTIALLY growing
 
-Third, the pace of change accelerates
-* Requirements change far more rapidly today than ever before
-* Pivoting is no longer exceptional—it's expected
-* Modern product development demands rapid iteration based on user feedback, market conditions, and competitive pressures
-* Traditional development treats these changes as disruptions
-* Each pivot requires manually propagating changes through documentation, design, and code
-* The result is either slow, careful updates that limit velocity, or fast, reckless changes that accumulate technical debt.
+* fast changes
+  * faster than ever
+  * pivoting is expected
+  * TODO: Modern product development demands rapid iteration based on user feedback, market conditions, and competitive pressures
+  * Traditional development treats these changes as disruptions
+  * Each pivot requires manually propagating changes through documentation, design, and code
+  * The result is either slow, careful updates that limit velocity, or fast, reckless changes that accumulate technical debt.
 
 SDD can support what-if/simulation experiments: "If we need to re-implement or change the application to promote a business need to sell more T-shirts, how would we implement and experiment for that?"
 
@@ -395,7 +393,8 @@ No implementation code shall be written before:
 3. Tests are confirmed to FAIL (Red phase)
 ```
 
-This completely inverts traditional AI code generation. Instead of generating code and hoping it works, the LLM must first generate comprehensive tests that define behavior, get them approved, and only then generate implementation.
+This completely inverts traditional AI code generation
+* Instead of generating code and hoping it works, the LLM must first generate comprehensive tests that define behavior, get them approved, and only then generate implementation.
 
 #### Articles VII & VIII: Simplicity and Anti-Abstraction
 
@@ -410,7 +409,8 @@ Section 8.1: Framework Trust
 - Use framework features directly rather than wrapping them
 ```
 
-When an LLM might naturally create elaborate abstractions, these articles force it to justify every layer of complexity. The implementation plan template's "Phase -1 Gates" directly enforce these principles.
+When an LLM might naturally create elaborate abstractions, these articles force it to justify every layer of complexity
+* The implementation plan template's "Phase -1 Gates" directly enforce these principles.
 
 #### Article IX: Integration-First Testing
 
@@ -448,11 +448,14 @@ The implementation plan template operationalizes these articles through concrete
 - [ ] Contract tests written?
 ```
 
-These gates act as compile-time checks for architectural principles. The LLM cannot proceed without either passing the gates or documenting justified exceptions in the "Complexity Tracking" section.
+These gates act as compile-time checks for architectural principles
+* The LLM cannot proceed without either passing the gates or documenting justified exceptions in the "Complexity Tracking" section.
 
 ### The Power of Immutable Principles
 
-The constitution's power lies in its immutability. While implementation details can evolve, the core principles remain constant. This provides:
+The constitution's power lies in its immutability
+* While implementation details can evolve, the core principles remain constant
+* This provides:
 
 1. **Consistency Across Time**: Code generated today follows the same principles as code generated next year
 2. **Consistency Across LLMs**: Different AI models produce architecturally compatible code
@@ -471,7 +474,8 @@ Modifications to this constitution require:
 - Backwards compatibility assessment
 ```
 
-This allows the methodology to learn and improve while maintaining stability. The constitution shows its own evolution with dated amendments, demonstrating how principles can be refined based on real-world experience.
+This allows the methodology to learn and improve while maintaining stability
+* The constitution shows its own evolution with dated amendments, demonstrating how principles can be refined based on real-world experience.
 
 ### Beyond Rules: A Development Philosophy
 
@@ -482,10 +486,14 @@ The constitution isn't just a rulebook—it's a philosophy that shapes how LLMs 
 - **Integration Over Isolation**: Test in real environments, not artificial ones
 - **Modularity Over Monoliths**: Every feature is a library with clear boundaries
 
-By embedding these principles into the specification and planning process, SDD ensures that generated code isn't just functional—it's maintainable, testable, and architecturally sound. The constitution transforms AI from a code generator into an architectural partner that respects and reinforces system design principles.
+By embedding these principles into the specification and planning process, SDD ensures that generated code isn't just functional—it's maintainable, testable, and architecturally sound
+* The constitution transforms AI from a code generator into an architectural partner that respects and reinforces system design principles.
 
 ## The Transformation
 
-This isn't about replacing developers or automating creativity. It's about amplifying human capability by automating mechanical translation. It's about creating a tight feedback loop where specifications, research, and code evolve together, each iteration bringing deeper understanding and better alignment between intent and implementation.
+This isn't about replacing developers or automating creativity
+* It's about amplifying human capability by automating mechanical translation
+* It's about creating a tight feedback loop where specifications, research, and code evolve together, each iteration bringing deeper understanding and better alignment between intent and implementation.
 
-Software development needs better tools for maintaining alignment between intent and implementation. SDD provides the methodology for achieving this alignment through executable specifications that generate code rather than merely guiding it.
+Software development needs better tools for maintaining alignment between intent and implementation
+* SDD provides the methodology for achieving this alignment through executable specifications that generate code rather than merely guiding it.
