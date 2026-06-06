@@ -1,20 +1,12 @@
 # Workflow Publishing Guide
 
-This guide explains how to publish your workflow to the Spec Kit workflow catalog, making it discoverable by `specify workflow search`.
-
-## Table of Contents
-
-1. [Prerequisites](#prerequisites)
-2. [Prepare Your Workflow](#prepare-your-workflow)
-3. [Submit to Catalog](#submit-to-catalog)
-4. [Verification Process](#verification-process)
-5. [Release Workflow](#release-workflow)
-6. [Best Practices](#best-practices)
-
----
+* goal
+  * how to publish your workflow | Spec Kit workflow catalog
+    * == making it discoverable -- by -- `specify workflow search`
 
 ## Prerequisites
 
+TODO: 
 Before publishing a workflow, ensure you have:
 
 1. **Valid Workflow**: A working `workflow.yml` that passes `specify workflow run` validation

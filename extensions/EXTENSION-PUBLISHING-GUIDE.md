@@ -1,16 +1,8 @@
 # Extension Publishing Guide
 
-This guide explains how to publish your extension to the Spec Kit extension catalog, making it discoverable by `specify extension search`.
-
-## Table of Contents
-
-1. [Prerequisites](#prerequisites)
-2. [Prepare Your Extension](#prepare-your-extension)
-3. [Submit to Catalog](#submit-to-catalog)
-4. [Release Workflow](#release-workflow)
-5. [Best Practices](#best-practices)
-
----
+* goal
+  * how to publish your OWN extension | Spec Kit extension catalog?
+    * -> discoverable -- by -- `specify extension search`
 
 ## Prerequisites
 
@@ -123,8 +115,6 @@ specify extension add --dev /path/to/your-extension
 # Test from GitHub archive
 specify extension add <extension-name> --from https://github.com/your-org/spec-kit-your-extension/archive/refs/tags/v1.0.0.zip
 ```
-
----
 
 ## Submit to Catalog
 

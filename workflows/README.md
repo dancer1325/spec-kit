@@ -1,43 +1,44 @@
 # Workflows
 
-Workflows are multi-step, resumable automation pipelines defined in YAML. They orchestrate Spec Kit commands across integrations, evaluate control flow, and pause at human review gates — enabling end-to-end Spec-Driven Development cycles without manual step-by-step invocation.
+* Workflows
+  * == automation pipelines / 
+    * are
+      * multi-step
+      * resumable
+      * defined | YAML
+    * allows
+      * orchestrate Spec Kit commands ACROSS integrations
+      * evaluate control flow
+      * pause | human review gates
+    * enable
+      * E2E Spec-Driven Development cycles WITHOUT manual step-by-step invocation
+  * == sequence of stepS 
+  * [MORE](ARCHITECTURE.md)
 
-## How It Works
+## how does it work?
 
-A workflow definition declares a sequence of steps. The engine executes them in order, dispatching commands to AI integrations, running shell commands, evaluating conditions for branching, and pausing at gates for human review. State is persisted after each step, so workflows can be resumed after interruption.
+* engine
+  * executes the steps in order /
+    * dispatches commands -- to -- AI integrations
+    * run shell commands
+    * evaluate conditions -- for -- branching
+    * pause | gates / require human review
+    * persist state AFTER EACH step
+      * Reason:🧠AFTER interruption, resume the workflows🧠
 
-```yaml
-steps:
-  - id: specify
-    command: speckit.specify
-    input:
-      args: "{{ inputs.spec }}"
-
-  - id: review
-    type: gate
-    message: "Review the spec before planning."
-    options: [approve, reject]
-    on_reject: abort
-
-  - id: plan
-    command: speckit.plan
-```
-
-For detailed architecture and internals, see [ARCHITECTURE.md](ARCHITECTURE.md).
-
-## Quick Start
+## quick start
 
 ```bash
 # Search available workflows
 specify workflow search
 
-# Install the built-in SDD workflow
+# install the built-in SDD workflow
+#   speckit
+#     == `id` | catalog.json
+#   == create .specify/workflows/*
 specify workflow add speckit
 
-# Or run directly from a local YAML file
-specify workflow run ./workflow.yml --input spec="Build a user authentication system with OAuth support"
-
-# Run an installed workflow with inputs
+# run an installed workflow -- with -- inputs
 specify workflow run speckit --input spec="Build a user authentication system with OAuth support"
 
 # Check run status
@@ -53,22 +54,22 @@ specify workflow info speckit
 specify workflow remove speckit
 ```
 
-## Running Workflows
+## how to run a workflow?
 
-### From an Installed Workflow
+### -- from an -- installed workflow
 
 ```bash
 specify workflow add speckit
 specify workflow run speckit --input spec="Build a user authentication system with OAuth support"
 ```
 
-### From a Local YAML File
+### -- from a -- local YAML File
 
 ```bash
 specify workflow run ./my-workflow.yml --input spec="Build a user authentication system with OAuth support"
 ```
 
-### Multiple Inputs
+### MULTIPLE inputs
 
 ```bash
 specify workflow run speckit \
@@ -343,33 +344,21 @@ current run:
     args: "{{ context.run_id }}"
 ```
 
-## Input Types
+## 's input
 
-Workflow inputs are type-checked and coerced from CLI string values:
+* _Example:_ [default speckit](speckit/workflow.yml)'s `inputs`
 
-```yaml
-inputs:
-  spec:
-    type: string
-    required: true
-    prompt: "Describe what you want to build"
-  task_count:
-    type: number
-    default: 5
-  dry_run:
-    type: boolean
-    default: false
-  scope:
-    type: string
-    default: "full"
-    enum: ["full", "backend-only", "frontend-only"]
-```
+### types
 
-| Type | Accepts | Example |
-|------|---------|---------|
-| `string` | Any string | `"user-auth"` |
-| `number` | Numeric strings → int/float | `"42"` → `42` |
-| `boolean` | `true`/`1`/`yes` → `True`, `false`/`0`/`no` → `False` | `"true"` → `True` |
+* type-checked
+* coerced from CLI string values (== ALL is converted -- as -- string) -- to -- corresponding input type
+* supported types
+  
+  | Type       | Accepts                                               | Example           |
+  |------------|-------------------------------------------------------|-------------------|
+  | `string`   | Any string                                            | `"user-auth"`     |
+  | `number`   | Numeric strings → int/float                           | `"42"` → `42`     |
+  | `boolean`  | `true`/`1`/`yes` → `True`, `false`/`0`/`no` → `False` | `"true"` → `True` |
 
 ## State and Resume
 
@@ -393,10 +382,12 @@ Run states: `created` → `running` → `completed` | `paused` | `failed` | `abo
 
 ## Catalog Management
 
-Workflows are discovered through catalogs. By default, Spec Kit uses the official and community catalogs:
-
-> [!NOTE]
-> Community workflows are independently created and maintained by their respective authors. GitHub and the Spec Kit maintainers may review pull requests that add entries to the community catalog for formatting and structure, but they do **not review, audit, endorse, or support the workflow definitions themselves**. Review workflow source before installation and use at your own discretion.
+* Workflows
+  * 💡are discovered -- through -- catalogs💡
+    * by default, Spec Kit uses the
+      * [official catalog](catalog.json)
+      * [community catalog](catalog.community.json)
+        * [built-in workflow](speckit/workflow.yml)
 
 ```bash
 # List active catalogs
@@ -409,9 +400,9 @@ specify workflow catalog add https://example.com/catalog.json --name my-org
 specify workflow catalog remove <index>
 ```
 
-## Creating a Workflow
+## how to create a Workflow?
 
-1. Create a `workflow.yml` following the schema above
+1. Create a `workflow.yml` / follow the schema above
 2. Test locally with `specify workflow run ./workflow.yml --input key=value`
 3. Verify with `specify workflow info ./workflow.yml`
 4. See [PUBLISHING.md](PUBLISHING.md) to submit to the catalog
@@ -431,13 +422,4 @@ specify workflow catalog remove <index>
 
 ## Repository Layout
 
-```
-workflows/
-├── ARCHITECTURE.md                         # Internal architecture documentation
-├── PUBLISHING.md                           # Guide for submitting workflows to the catalog
-├── README.md                               # This file
-├── catalog.json                            # Official workflow catalog
-├── catalog.community.json                  # Community workflow catalog
-└── speckit/                                # Built-in SDD cycle workflow
-    └── workflow.yml
-```
+

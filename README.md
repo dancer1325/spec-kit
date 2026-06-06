@@ -3,7 +3,7 @@
     <h1>🌱 Spec Kit</h1>
 </div>
 
-* == toolkit
+* == SDD toolkit -- for -- AI coding agents
   * open source
   * allows you to
     * 👀focus | product scenarios & predictable outcomes👀

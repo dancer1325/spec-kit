@@ -1,8 +1,16 @@
 # Presets
 
-Presets are stackable, priority-ordered collections of template and command overrides for Spec Kit. They let you customize both the artifacts produced by the Spec-Driven Development workflow (specs, plans, tasks, checklists, constitutions) and the commands that guide the LLM in creating them — without forking or modifying core files.
+* Presets
+  * == Spec Kit's collections of template + command overrides
+    * stackable
+    * priority-ordered  
+  * let you
+    * customize
+      * artifacts / produced -- by the -- SSD workflow (specs, plans, tasks, checklists, constitutions)
+      * commands / guide the LLM | creating them
+        * WITHOUT forking OR modifying core files
 
-## How It Works
+## how does it work?
 
 When Spec Kit needs a template (e.g. `spec-template`), it walks a resolution stack:
 
@@ -95,7 +103,8 @@ Multiple composing presets chain recursively. For example, a security preset wit
 
 ## Catalog Management
 
-Presets are discovered through catalogs. By default, Spec Kit uses the official and community catalogs:
+Presets are discovered through catalogs
+By default, Spec Kit uses the official and community catalogs:
 
 > [!NOTE]
 > Community presets are independently created and maintained by their respective authors. Maintainers only verify that catalog entries are complete and correctly formatted — they do **not review, audit, endorse, or support the preset code itself**. Review preset source code before installation and use at your own discretion.
@@ -110,6 +119,17 @@ specify preset catalog add https://example.com/catalog.json --name my-org --inst
 # Remove a catalog
 specify preset catalog remove my-org
 ```
+
+### [built-in catalog](catalog.json)
+
+### [Community Catalog](catalog.community.json)
+
+* INDEPENDENT -- to -- built-in
+* customize how Spec Kit behaves
+  * == override -- WITHOUT -- changing any tooling
+    * templates
+    * commands
+    * terminology 
 
 ## Creating a Preset
 
@@ -156,3 +176,6 @@ The following enhancements are under consideration for future releases:
 
 - **Structural merge strategies** — Parsing Markdown sections for per-section granularity (e.g., "replace only ## Security").
 - **Conflict detection** — `specify preset lint` / `specify preset doctor` for detecting composition conflicts.
+
+
+[how to build & publish your OWN preset?](PUBLISHING.md)

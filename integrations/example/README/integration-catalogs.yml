@@ -1,0 +1,5 @@
+catalogs:
+  - url: "https://example.com/my-catalog.json"
+    name: "my-catalog"
+    priority: 1
+    install_allowed: true

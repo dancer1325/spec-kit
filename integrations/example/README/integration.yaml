@@ -1,0 +1,24 @@
+schema_version: "1.0"
+integration:
+  id: "my-agent"
+  name: "My Agent"
+  version: "1.0.0"
+  description: "Integration for My Agent"
+  author: "my-org"
+  repository: "https://github.com/my-org/speckit-my-agent"
+  license: "MIT"
+requires:
+  speckit_version: ">=0.6.0"
+  tools:
+    - name: "my-agent"
+      version: ">=1.0.0"
+      required: true
+provides:
+  commands:
+    - name: "speckit.specify"
+      file: "templates/speckit.specify.md"
+    - name: "speckit.plan"
+      file: "templates/speckit.plan.md"
+  scripts:
+    - update-context.sh
+    - update-context.ps1

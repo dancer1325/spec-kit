@@ -1,12 +1,15 @@
 # Workflow System Architecture
 
-This document describes the internal architecture of the workflow engine — how definitions are parsed, steps are dispatched, state is persisted, and catalogs are resolved.
-
-For usage instructions, see [README.md](README.md).
+* goal
+  * workflow engine's internal architecture
 
 ## Execution Model
 
-When `specify workflow run` is invoked, the engine loads a YAML definition, resolves inputs, and dispatches steps sequentially through the step registry:
+* | run `specify workflow run`, 
+  * the workflow engine
+    * loads a YAML definition
+    * resolves inputs
+    * dispatches steps -- , through the step registry, -- sequentially
 
 ```mermaid
 flowchart TD
@@ -47,15 +50,33 @@ flowchart TD
 
 ### Sequential Execution
 
-Steps execute sequentially. Each step receives a `StepContext` containing resolved inputs, accumulated step results, and workflow-level defaults. After execution, the step's output is stored in `context.steps[step_id]` and made available to subsequent steps via expressions like `{{ steps.specify.output.file }}`.
+* == steps are executed SEQUENTIALLY
+* step's
+  * input
+    * `StepContext`
+      * == resolved inputs
+    * accumulated step results
+    * workflow-level defaults
+* output
+  * AFTER execution, 
+    * it's stored | `context.steps[step_id]`
+    * made available -- , via expressions, to -- subsequent steps 
+      * _Example:_ `{{ steps.specify.output.file }}`
 
 ### Nested Steps (Control Flow)
 
-Steps like `if`, `switch`, `while`, and `do-while` return `next_steps` — inline step definitions that the engine executes recursively via `_execute_steps()`. Nested steps share the same `StepContext` and `RunState`, so their outputs are visible to later top-level steps.
+* _Example of these steps:_ `if`, `switch`, `while`, and `do-while`
+* return `next_steps` 
+* == inline step definitions /
+  * workflow engine executes RECURSIVELY -- via -- `_execute_steps()`
+  * their outputs: are visible | later top-level steps
+    * Reason: 🧠share the SAME `StepContext` & `RunState`🧠 
 
-### State Persistence and Resume
+### State Persistence & Resume
 
-The engine saves `RunState` to disk after each step, enabling resume from the exact point of interruption:
+* workflow engine
+  * AFTER EACH step, save `RunState` | disk
+    * -> enable resume -- from the -- EXACT point of interruption
 
 ```mermaid
 flowchart LR
@@ -68,43 +89,56 @@ flowchart LR
     E -- "resume()" --> B
 ```
 
-When a `gate` step pauses execution, the engine persists `current_step_index` and all accumulated `step_results`. On `specify workflow resume <run_id>`, the engine restores the context and continues from the paused step.
+* if a `gate` step pauses execution -> the workflow engine persists 
+  * `current_step_index` 
+  * ALL accumulated `step_results`
 
-> **Note:** Resume tracking is at the top-level step index only. If a
+* | `specify workflow resume <run_id>`, 
+  * the workflow engine
+    * restores the context
+    * continues -- from the -- paused step
+
+TODO: 
+> **Note:** Resume tracking is at the top-level step index only
+> If a
 > nested step (inside `if`/`switch`/`while`) pauses, resume re-runs
-> the parent control-flow step and its nested body. A nested step-path
+> the parent control-flow step and its nested body
+> A nested step-path
 > stack for exact resume is a planned enhancement.
 
-## Step Types
+## built-in step types
 
-The engine ships with 10 built-in step types, each in its own subpackage under `src/specify_cli/workflows/steps/`:
+* subpackage | [here](/src/specify_cli/workflows/steps/)
 
-| Type Key | Class | Purpose | Returns `next_steps`? |
-|----------|-------|---------|-----------------------|
-| `command` | `CommandStep` | Invoke an installed Spec Kit command via integration CLI | No |
-| `prompt` | `PromptStep` | Send an arbitrary inline prompt to integration CLI | No |
-| `shell` | `ShellStep` | Run a shell command, capture output | No |
-| `gate` | `GateStep` | Interactive human review/approval | No (pauses in CI) |
-| `if` | `IfThenStep` | Conditional branching (then/else) | Yes |
-| `switch` | `SwitchStep` | Multi-branch dispatch on expression | Yes |
-| `while` | `WhileStep` | Loop while condition is truthy | Yes (if true) |
-| `do-while` | `DoWhileStep` | Loop, always runs body at least once | Yes (always) |
-| `fan-out` | `FanOutStep` | Dispatch per item over a collection | No (engine expands) |
-| `fan-in` | `FanInStep` | Aggregate results from fan-out | No |
+| Type Key   | Class         | Purpose                                                        | Returns `next_steps`?  |
+|------------|---------------|----------------------------------------------------------------|------------------------|
+| `command`  | `CommandStep` | Invoke an INSTALLED Spec Kit command -- via -- integration CLI | No                     |
+| `prompt`   | `PromptStep`  | Send an arbitrary inline prompt -- to -- integration CLI       | No                     |
+| `shell`    | `ShellStep`   | Run a shell command, capture output                            | No                     |
+| `gate`     | `GateStep`    | Interactive human review/approval                              | No (pauses in CI)      |
+| `if`       | `IfThenStep`  | Conditional branching (then/else)                              | Yes                    |
+| `switch`   | `SwitchStep`  | Multi-branch dispatch on expression                            | Yes                    |
+| `while`    | `WhileStep`   | Loop while condition is truthy                                 | Yes (if true)          |
+| `do-while` | `DoWhileStep` | Loop, always runs body at least once                           | Yes (always)           |
+| `fan-out`  | `FanOutStep`  | Dispatch per item over a collection                            | No (engine expands)    |
+| `fan-in`   | `FanInStep`   | Aggregate results from fan-out                                 | No                     |
 
 ## Step Registry
 
-All step types register into `STEP_REGISTRY` via `_register_builtin_steps()` in `src/specify_cli/workflows/__init__.py`. The registry maps `type_key` strings to step instances:
+All step types register into `STEP_REGISTRY` via `_register_builtin_steps()` in `src/specify_cli/workflows/__init__.py`
+The registry maps `type_key` strings to step instances:
 
 ```python
 STEP_REGISTRY: dict[str, StepBase]  # e.g., {"command": CommandStep(), "gate": GateStep(), ...}
 ```
 
-Registration is explicit — each step class is imported and instantiated. New step types follow the same pattern: subclass `StepBase`, set `type_key`, implement `execute()` and optionally `validate()`.
+Registration is explicit — each step class is imported and instantiated
+* New step types follow the same pattern: subclass `StepBase`, set `type_key`, implement `execute()` and optionally `validate()`.
 
 ## Expression Engine
 
-Workflow definitions use Jinja2-like `{{ expression }}` syntax for dynamic values. The expression engine in `src/specify_cli/workflows/expressions.py` supports:
+Workflow definitions use Jinja2-like `{{ expression }}` syntax for dynamic values
+* The expression engine in `src/specify_cli/workflows/expressions.py` supports:
 
 | Feature | Syntax | Example |
 |---------|--------|---------|
@@ -119,7 +153,8 @@ Workflow definitions use Jinja2-like `{{ expression }}` syntax for dynamic value
 | Filter: `contains` | `{{ text \| contains('sub') }}` | Substring/membership check |
 | Filter: `map` | `{{ list \| map('attr') }}` | Extract attribute from each item |
 
-**Single expressions** (`{{ expr }}` only) return typed values. **Mixed templates** (`"text {{ expr }} more"`) return interpolated strings.
+**Single expressions** (`{{ expr }}` only) return typed values
+* **Mixed templates** (`"text {{ expr }} more"`) return interpolated strings.
 
 ### Namespace
 
@@ -143,7 +178,8 @@ When a workflow is executed, `_resolve_inputs()` validates and coerces provided 
 | `boolean` | `"true"/"1"/"yes"` → `True` | `"false"` → `False` |
 | `enum` | Validates against allowed values | `["full", "backend-only"]` |
 
-Missing required inputs raise `ValueError`. Inputs with `default` values use the default when not provided.
+Missing required inputs raise `ValueError`
+* Inputs with `default` values use the default when not provided.
 
 ## Catalog System
 
@@ -167,22 +203,28 @@ flowchart TD
     style K fill:#9e9e9e,color:#fff
 ```
 
-Catalogs are fetched with a 1-hour cache (per-URL, SHA256-hashed cache files in `.specify/workflows/.cache/`). Each catalog entry has a `priority` (for merge ordering) and `install_allowed` flag.
+* Catalogs
+  * are fetched -- with -- 1-hour cache
+    * _Example:_ per-URL / SHA256-hashed cache files | ".specify/workflows/.cache/"
+* / EACH catalog entry, has a
+  * `priority` flag
+    * goal: merge ordering 
+  * `install_allowed` flag
 
-When `specify workflow add <id>` installs from catalog, it downloads the workflow YAML from the catalog entry's `url` field into `.specify/workflows/<id>/workflow.yml`.
+* `specify workflow add <id>` installs from catalog -> it downloads the workflow YAML | catalog entry's `url` field | ".specify/workflows/<id>/workflow.yml"
 
 ## State and Configuration Locations
 
-| Component | Location | Format | Purpose |
-|-----------|----------|--------|---------|
-| Workflow definitions | `.specify/workflows/{id}/workflow.yml` | YAML | Installed workflow definitions |
-| Workflow registry | `.specify/workflows/workflow-registry.json` | JSON | Installed workflows metadata |
-| Run state | `.specify/workflows/runs/{run_id}/state.json` | JSON | Persisted execution state |
-| Run inputs | `.specify/workflows/runs/{run_id}/inputs.json` | JSON | Resolved input values |
-| Run log | `.specify/workflows/runs/{run_id}/log.jsonl` | JSONL | Append-only event log |
-| Catalog cache | `.specify/workflows/.cache/*.json` | JSON | Cached catalog entries (1hr TTL) |
-| Project catalogs | `.specify/workflow-catalogs.yml` | YAML | Project-level catalog sources |
-| User catalogs | `~/.specify/workflow-catalogs.yml` | YAML | User-level catalog sources |
+| Component            | Location                                       | Format  | Purpose                          |
+|----------------------|------------------------------------------------|---------|----------------------------------|
+| Workflow definitions | `.specify/workflows/{id}/workflow.yml`         | YAML    | INSTALLED workflow definitions   |
+| Workflow registry    | `.specify/workflows/workflow-registry.json`    | JSON    | INSTALLED workflows metadata     |
+| Run state            | `.specify/workflows/runs/{run_id}/state.json`  | JSON    | Persisted execution state        |
+| Run inputs           | `.specify/workflows/runs/{run_id}/inputs.json` | JSON    | Resolved input values            |
+| Run log              | `.specify/workflows/runs/{run_id}/log.jsonl`   | JSONL   | Append-only event log            |
+| Catalog cache        | `.specify/workflows/.cache/*.json`             | JSON    | Cached catalog entries (1hr TTL) |
+| Project catalogs     | `.specify/workflow-catalogs.yml`               | YAML    | Project-level catalog sources    |
+| User catalogs        | `~/.specify/workflow-catalogs.yml`             | YAML    | User-level catalog sources       |
 
 ## Module Structure
 

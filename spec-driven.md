@@ -44,23 +44,25 @@
 
 ## SDD Workflow
 
-* idea—often vague and incomplete
-* this idea becomes -- , through iterative dialogue with AI, -- a comprehensive PRD
-  * AI 
-    * asks clarifying questions
-    * identifies edge cases
-    * helps define precise acceptance criteria
-* triggers
-  * you update the PRD (== | github-speck-kit, "spec.md") -> impact the plan (== | github-speck-kit, "plan.md")
-    * _Example:_ product manager updates acceptance criteria -> technical plan AUTOMATICALLY flag the affected technical decisions
-  * you update the plan (== | github-speck-kit, "plan.md") -> impact the PRD (== | github-speck-kit, "spec.md") 
-    * _Example:_ architect discovers a better pattern -> the PRD is updated to reflect new possibilities.
-* | ALL specification process,
-  * research agents gather critical context
-    * _Examples:_ library compatibility, performance benchmarks, and security implications
-    * ❌!= spec-kit acts❌
-      * Reason:🧠ONLY | plan 🧠
+* SDD Workflow == 
+  * idea—often vague and incomplete
+  * this idea becomes -- , through iterative dialogue with AI, -- a comprehensive PRD
+    * AI 
+      * asks clarifying questions
+      * identifies edge cases
+      * helps define precise acceptance criteria
+  * triggers
+    * you update the PRD (== | github-speck-kit, "spec.md") -> impact the plan (== | github-speck-kit, "plan.md")
+      * _Example:_ product manager updates acceptance criteria -> technical plan AUTOMATICALLY flag the affected technical decisions
+    * you update the plan (== | github-speck-kit, "plan.md") -> impact the PRD (== | github-speck-kit, "spec.md") 
+      * _Example:_ architect discovers a better pattern -> the PRD is updated to reflect new possibilities.
+  * | ALL specification process,
+    * research agents gather critical context
+      * _Examples:_ library compatibility, performance benchmarks, and security implications
+      * ❌!= spec-kit acts❌
+        * Reason:🧠ONLY | plan 🧠
 
+TODO: 
 From the PRD, AI generates implementation plans that map requirements to technical decisions
 * Every technology choice has documented rationale
 * Every architectural decision traces back to specific requirements
@@ -106,14 +108,17 @@ SDD transforms requirement changes from obstacles into normal workflow
 * Modify a user story, and corresponding API endpoints regenerate
 * This isn't just about initial development—it's about maintaining engineering velocity through inevitable changes.
 
-## Core Principles
+## 's Core Principles
 
-Spec-Driven Development is a structured process that emphasizes:
-
-- **Intent-driven development** where specifications define the "*what*" before the "*how*"
-- **Rich specification creation** using guardrails and organizational principles
-- **Multi-step refinement** rather than one-shot code generation from prompts
-- **Heavy reliance** on advanced AI model capabilities for specification interpretation
+* **Intent-driven development**
+  * == specifications define the "*what*"
+    * BEFORE the "*how*"
+* **Rich specification creation**
+  * -- by -- using guardrails + organizational principles
+* **Multi-step refinement**
+  * != FROM prompts, 1-shot code generation 
+* **Heavy reliance** 
+  * | advanced AI model capabilities
 
 ---
 
@@ -121,18 +126,23 @@ Spec-Driven Development is a structured process that emphasizes:
 * Code becomes its expression in a particular language and framework
 * Maintaining software means evolving specifications.
 
-**Executable Specifications**: Specifications must be precise, complete, and unambiguous enough to generate working systems
+**Executable Specifications**
+* Specifications must be precise, complete, and unambiguous enough to generate working systems
 * This eliminates the gap between intent and implementation.
 
-**Continuous Refinement**: Consistency validation happens continuously, not as a one-time gate
+**Continuous Refinement**
+* Consistency validation happens continuously, not as a one-time gate
 * AI analyzes specifications for ambiguity, contradictions, and gaps as an ongoing process.
 
-**Research-Driven Context**: Research agents gather critical context throughout the specification process, investigating technical options, performance implications, and organizational constraints.
+**Research-Driven Context**
+* Research agents gather critical context throughout the specification process, investigating technical options, performance implications, and organizational constraints.
 
-**Bidirectional Feedback**: Production reality informs specification evolution
+**Bidirectional Feedback**
+* Production reality informs specification evolution
 * Metrics, incidents, and operational learnings become inputs for specification refinement.
 
-**Branching for Exploration**: Generate multiple implementation approaches from the same specification to explore different optimization targets—performance, maintainability, user experience, cost.
+**Branching for Exploration**
+* Generate multiple implementation approaches from the same specification to explore different optimization targets—performance, maintainability, user experience, cost.
 
 ## Implementation Approaches
 
@@ -491,9 +501,13 @@ By embedding these principles into the specification and planning process, SDD e
 
 ## The Transformation
 
-This isn't about replacing developers or automating creativity
-* It's about amplifying human capability by automating mechanical translation
-* It's about creating a tight feedback loop where specifications, research, and code evolve together, each iteration bringing deeper understanding and better alignment between intent and implementation.
+* ❌!= 
+  * replace developers
+  * automate creativity❌
 
-Software development needs better tools for maintaining alignment between intent and implementation
-* SDD provides the methodology for achieving this alignment through executable specifications that generate code rather than merely guiding it.
+* goal
+  * amplify -- , by automating mechanical translation, -- human capability 
+  * create a tight feedback loop /
+    * specifications + research + code, evolve together
+    * deeper understanding / EACH iteration
+    * BETTER alignment BETWEEN intent -- & -- implementation / EACH iteration

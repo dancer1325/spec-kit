@@ -320,7 +320,7 @@
 - feat: Speckit preset fiction book v1.7 - Support for RAG (Chroma DB) offline semantic search (#2367)
 - fix(extensions): use explicit UTF-8 encoding when reading manifest YAML (#2370)
 - catalog: add m365 community extension
-- docs: replace deprecated --ai flag with --integration in all documentation (#2359)
+- docs: replace deprecated `--ai` flag -- with -- `--integration` in all documentation (#2359)
 - feat(extensions,presets): authenticate GitHub-hosted catalog and download requests with GITHUB_TOKEN/GH_TOKEN (#2331)
 - Update extensify to v1.1.0 in community catalog (#2337)
 - feat(init): deprecate --no-git flag, gate deprecations at v0.10.0 (#2357)
