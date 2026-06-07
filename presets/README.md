@@ -1,7 +1,7 @@
 # Presets
 
 * Presets
-  * == Spec Kit's collections of template + command overrides
+  * == Spec Kit's collections of template + command /
     * stackable
     * priority-ordered  
   * let you
@@ -9,47 +9,49 @@
       * artifacts / produced -- by the -- SSD workflow (specs, plans, tasks, checklists, constitutions)
       * commands / guide the LLM | creating them
         * WITHOUT forking OR modifying core files
+  * discovered -- through -- [catalogs](#catalog-management)
 
 ## how does it work?
 
-When Spec Kit needs a template (e.g. `spec-template`), it walks a resolution stack:
+* [ARCHITECTURE](ARCHITECTURE.md)
 
-1. `.specify/templates/overrides/` — project-local one-off overrides
-2. `.specify/presets/<preset-id>/templates/` — installed presets (sorted by priority)
-3. `.specify/extensions/<ext-id>/templates/` — extension-provided templates
-4. `.specify/templates/` — core templates shipped with Spec Kit
+## Command
 
-If no preset is installed, core templates are used — exactly the same behavior as before presets existed.
+* they are 
+  * applied | install time
+  * registered | ALL detected agent directories 
+    * _Examples:_ ".claude/commands/", ".gemini/commands/", ... 
+  * defined -- as -- `provides.templates.*` / `type: "command"`
+    * == 💡template type💡
+* | remove the preset,
+  * the registered commands are cleaned up
 
-Template resolution happens **at runtime** — although preset files are copied into `.specify/presets/<id>/` during installation, Spec Kit walks the resolution stack on every template lookup rather than merging templates into a single location.
+## Script
 
-For detailed resolution and command registration flows, see [ARCHITECTURE.md](ARCHITECTURE.md).
-
-## Command Overrides
-
-Presets can also override the commands that guide the SDD workflow. Templates define *what* gets produced (specs, plans, constitutions); commands define *how* the LLM produces them (the step-by-step instructions).
-
-Unlike templates, command overrides are applied **at install time**. When a preset includes `type: "command"` entries, the commands are registered into all detected agent directories (`.claude/commands/`, `.gemini/commands/`, etc.) in the correct format (Markdown or TOML with appropriate argument placeholders). When the preset is removed, the registered commands are cleaned up.
+* they are
+  * defined -- as -- `provides.templates.*` / `type: "script"`
+    * == 💡template type💡
 
 ## Quick Start
 
 ```bash
-# Search available presets
+# Search AVAILABLE presets
 specify preset search
 
-# Install a preset from the catalog
+# Install a preset -- from the -- catalog
 specify preset add healthcare-compliance
 
-# Install from a local directory (for development)
+# Install -- from a -- local directory
 specify preset add --dev ./my-preset
 
-# Install with a specific priority (lower = higher precedence)
+# Install -- with a -- specific priority 
+#   lower == HIGHER precedence
 specify preset add healthcare-compliance --priority 5
 
-# List installed presets
+# List INSTALLED presets
 specify preset list
 
-# See which template a name resolves to
+# TODO: See which template a name resolves to
 specify preset resolve spec-template
 
 # Get detailed info about a preset
@@ -61,19 +63,29 @@ specify preset remove healthcare-compliance
 
 ## Stacking Presets
 
-Multiple presets can be installed simultaneously. The `--priority` flag controls which one wins when two presets provide the same template (lower number = higher precedence):
+* == 👀install SIMULTANEOUSLY >1 presets | SAME project👀
+  * if you want to control which one wins -> pass `--priority` flag
 
-```bash
-specify preset add enterprise-safe --priority 10      # base layer
-specify preset add healthcare-compliance --priority 5  # overrides enterprise-safe
-specify preset add pm-workflow --priority 1            # overrides everything
-```
+    ```bash
+    # base layer
+    specify preset add enterprise-safe --priority 10
+    
+    # overrides enterprise-safe      
+    specify preset add healthcare-compliance --priority 5  
+    
+    # overrides everything
+    specify preset add pm-workflow --priority 1            
+    ```
 
-Presets **override by default**, they don't merge. If two presets both provide `spec-template` with the default `replace` strategy, the one with the lowest priority number wins entirely. However, presets can use **composition strategies** to augment rather than replace content.
+TODO: 
+Presets **override by default**, they don't merge
+* If two presets both provide `spec-template` with the default `replace` strategy, the one with the lowest priority number wins entirely
+* However, presets can use **composition strategies** to augment rather than replace content.
 
 ### Composition Strategies
 
-Presets can declare a `strategy` per template to control how content is combined. The `name` field identifies which template to compose with in the priority stack, while `file` points to the actual content file (which can differ from the convention path `templates/<name>.md`):
+Presets can declare a `strategy` per template to control how content is combined
+* The `name` field identifies which template to compose with in the priority stack, while `file` points to the actual content file (which can differ from the convention path `templates/<name>.md`):
 
 ```yaml
 provides:
@@ -84,12 +96,12 @@ provides:
       strategy: "append"        # adds content after the core template
 ```
 
-| Strategy | Description |
-|----------|-------------|
-| `replace` (default) | Fully replaces the lower-priority template |
-| `prepend` | Places content **before** the resolved lower-priority template, separated by a blank line |
-| `append` | Places content **after** the resolved lower-priority template, separated by a blank line |
-| `wrap` | Content contains `{CORE_TEMPLATE}` placeholder (or `$CORE_SCRIPT` for scripts) replaced with the lower-priority content |
+| Strategy            | Description                                                                                                             |
+|---------------------|-------------------------------------------------------------------------------------------------------------------------|
+| `replace` (default) | Fully replaces the lower-priority template                                                                              |
+| `prepend`           | Places content **before** the resolved lower-priority template, separated by a blank line                               |
+| `append`            | Places content **after** the resolved lower-priority template, separated by a blank line                                |
+| `wrap`              | Content contains `{CORE_TEMPLATE}` placeholder (or `$CORE_SCRIPT` for scripts) replaced with the lower-priority content |
 
 **Supported combinations:**
 
@@ -99,15 +111,16 @@ provides:
 | **command** | ✓ (default) | ✓ | ✓ | ✓ |
 | **script** | ✓ (default) | — | — | ✓ |
 
-Multiple composing presets chain recursively. For example, a security preset with `prepend` and a compliance preset with `append` will produce: security header + core content + compliance footer.
+Multiple composing presets chain recursively
+* For example, a security preset with `prepend` and a compliance preset with `append` will produce:
+security header + core content + compliance footer.
 
 ## Catalog Management
 
-Presets are discovered through catalogs
-By default, Spec Kit uses the official and community catalogs:
-
-> [!NOTE]
-> Community presets are independently created and maintained by their respective authors. Maintainers only verify that catalog entries are complete and correctly formatted — they do **not review, audit, endorse, or support the preset code itself**. Review preset source code before installation and use at your own discretion.
+* Spec Kit
+  * by default, uses
+    * [official catalog](catalog.json)
+    * [community catalog](catalog.community.json)
 
 ```bash
 # List active catalogs
@@ -131,51 +144,30 @@ specify preset catalog remove my-org
     * commands
     * terminology 
 
-## Creating a Preset
+## how to create a preset?
 
-See [scaffold/](scaffold/) for a scaffold you can copy to create your own preset.
-
-1. Copy `scaffold/` to a new directory
-2. Edit `preset.yml` with your preset's metadata
-3. Add or replace templates in `templates/`
-4. Test locally with `specify preset add --dev .`
-5. Verify with `specify preset resolve spec-template`
+* _Example:_ [here](scaffold/)
 
 ## Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `SPECKIT_PRESET_CATALOG_URL` | Override the full catalog stack with a single URL (replaces all defaults) | Built-in default stack |
-| `GH_TOKEN` / `GITHUB_TOKEN` | GitHub token for authenticated requests to GitHub-hosted URLs (`raw.githubusercontent.com`, `github.com`, `api.github.com`, `codeload.github.com`). Required when your catalog JSON or preset ZIPs are hosted in a private GitHub repository. | None |
-
-#### Example: Using a private GitHub-hosted catalog
-
-```bash
-# Authenticate with a token (gh CLI, PAT, or GITHUB_TOKEN in CI)
-export GITHUB_TOKEN=$(gh auth token)
-
-# Search a private catalog added via `specify preset catalog add`
-specify preset search my-template
-
-# Install from a private catalog
-specify preset add my-template
-```
-
-The token is attached automatically to requests targeting GitHub domains. Non-GitHub catalog URLs are always fetched without credentials.
+| Variable                     | Description                                                                                                                                                                                                                                                                                                                                                                                       | Default                |
+|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------|
+| `SPECKIT_PRESET_CATALOG_URL` | override the FULL catalog stack -- with -- 1! URL (replaces ALL defaults)                                                                                                                                                                                                                                                                                                                         | Built-in default stack |
+| `GH_TOKEN` / `GITHUB_TOKEN`  | GitHub token / <br/> &nbsp;&nbsp; authenticate requests -- to -- GitHub-hosted URLs (`raw.githubusercontent.com`, `github.com`, `api.github.com`, `codeload.github.com`) <br/> &nbsp;&nbsp; is attached AUTOMATICALLY \| requests / target GitHub domains <br/> use cases: your catalog JSON OR preset ZIPs are hosted \| private GitHub repository <br/> NOT use cases: NON-GitHub catalog URLs  | None                   |
 
 ## Configuration Files
 
-| File | Scope | Description |
-|------|-------|-------------|
-| `.specify/preset-catalogs.yml` | Project | Custom catalog stack for this project |
-| `~/.specify/preset-catalogs.yml` | User | Custom catalog stack for all projects |
+| File                             | Scope   | Description                         |
+|----------------------------------|---------|-------------------------------------|
+| `.specify/preset-catalogs.yml`   | Project | project's custom catalog stack      |
+| `~/.specify/preset-catalogs.yml` | User    | ALL projects' custom catalog stack  |
 
-## Future Considerations
+## Future considerations | future releases
 
-The following enhancements are under consideration for future releases:
+* **Structural merge strategies** 
+  * == parse Markdown sections / section granularity
+    * _Example:_ "replace only ## Security"
+* **Conflict detection** 
+  * `specify preset lint` / `specify preset doctor`
 
-- **Structural merge strategies** — Parsing Markdown sections for per-section granularity (e.g., "replace only ## Security").
-- **Conflict detection** — `specify preset lint` / `specify preset doctor` for detecting composition conflicts.
-
-
-[how to build & publish your OWN preset?](PUBLISHING.md)
+## [how to build & publish your OWN preset?](PUBLISHING.md)

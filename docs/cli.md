@@ -1,5 +1,7 @@
 # 🔧 Specify CLI Reference
 
+TODO: migrate to core.md
+
 ## `specify` commands
 
 | Command | Description                                                                                                                                             |

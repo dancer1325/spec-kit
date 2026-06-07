@@ -5,6 +5,10 @@ Presets customize how Spec Kit works — overriding templates, commands, and ter
 Presets customize how Spec Kit behaves — overriding templates, commands, and terminology without changing any tooling
 * Community presets range from language localizations to entirely different development methodologies.
 
+Presets customize how Spec Kit works — overriding command files, template files, and script files without changing any tooling
+* They let you enforce organizational standards, adapt the workflow to your methodology, or localize the entire experience
+* Multiple presets can be stacked with priority ordering to layer customizations.
+
 ## Search Available Presets
 
 ```bash

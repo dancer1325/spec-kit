@@ -2,6 +2,10 @@
 
 Workflows automate multi-step Spec-Driven Development processes — chaining commands, prompts, shell steps, and human checkpoints into repeatable sequences. They support conditional logic, loops, fan-out/fan-in, and can be paused and resumed from the exact point of interruption.
 
+
+Workflows automate multi-step Spec-Driven Development processes into repeatable sequences
+* They chain commands, prompts, shell steps, and human checkpoints together, with support for conditional logic, loops, fan-out/fan-in, and the ability to pause and resume from the exact point of interruption.
+
 ## Run a Workflow
 
 ```bash

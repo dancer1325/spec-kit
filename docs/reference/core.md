@@ -2,6 +2,11 @@
 
 The core `specify` commands handle project initialization, system checks, and version information.
 
+The foundational commands for creating and managing Spec Kit projects
+* Initialize a new project with the necessary directory structure, templates, and scripts
+* Verify that your system has the required tools installed
+* Check version and system information.
+
 ## Initialize a Project
 
 ```bash

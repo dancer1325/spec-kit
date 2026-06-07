@@ -1,17 +1,8 @@
 # Preset Publishing Guide
 
-This guide explains how to publish your preset to the Spec Kit preset catalog, making it discoverable by `specify preset search`.
-
-## Table of Contents
-
-1. [Prerequisites](#prerequisites)
-2. [Prepare Your Preset](#prepare-your-preset)
-3. [Submit to Catalog](#submit-to-catalog)
-4. [Verification Process](#verification-process)
-5. [Release Workflow](#release-workflow)
-6. [Best Practices](#best-practices)
-
----
+* goal
+  * how to publish your preset | Spec Kit preset catalog
+    * -> make it -- , by  `specify preset search`, -- discoverable
 
 ## Prerequisites
 

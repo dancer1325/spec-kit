@@ -7,13 +7,22 @@
 
 * AVAILABLE ones
   * **[cc-spex](https://github.com/rhuss/cc-spex)**
-    * A Claude Code plugin that adds composable traits on top of Spec Kit with [Superpowers](https://github.com/obra/superpowers)-based quality gates, spec/code review, git worktree isolation, and parallel implementation via agent teams.
+    * == Claude Code plugin / combine
+      * Spec Kit + 
+      * [Superpowers](https://github.com/obra/superpowers)
   * **[Spec Kit Assistant](https://marketplace.visualstudio.com/items?itemName=rfsales.speckit-assistant)**
-    * A VS Code extension that provides a visual orchestrator for the full SDD workflow (constitution → specification → planning → tasks → implementation) with phase status visualization, an interactive task checklist, DAG visualization, and support for Claude, Gemini, GitHub Copilot, and OpenAI backends
+    * == VS Code extension /
+      * provides 
+        * visual orchestrator -- for the -- full SDD workflow + phase status visualization
+        * interactive task checklist
+        * DAG visualization
     * requirements
       * `specify` CLI | your PATH
   * **[SpecKit Companion](https://marketplace.visualstudio.com/items?itemName=alfredoperez.speckit-companion)**
-    * A VS Code extension that brings a visual GUI to Spec Kit
-    * Browse specs in a rich markdown viewer with clickable file references, create specifications with image attachments, comment and refine each step inline (GitHub-style review), track your progress through the SDD workflow with a visual phase stepper, and manage steering documents like constitutions and templates.
+    * == VS Code extension / adds a visual GUI | Spec Kit
   * **[cc-spec-kit](https://github.com/speckit-community/cc-spec-kit)**
-    * Community-maintained plugin for Claude Code and GitHub Copilot CLI that installs Spec Kit skills via the plugin marketplace.
+    * == plugin / 
+      * installs -- , via the plugin marketplace, -- Spec Kit skills 
+      * AVAILABLE |
+        * Claude Code
+        * GitHub Copilot CLI

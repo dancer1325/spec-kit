@@ -1,46 +1,39 @@
-# What is Spec-Driven Development?
+* goal
+  * Spec Kit -- as -- SDD implementation
 
-Spec-Driven Development **flips the script** on traditional software development. For decades, code has been king — specifications were just scaffolding we built and discarded once the "real work" of coding began. Spec-Driven Development changes this: **specifications become executable**, directly generating working implementations rather than just guiding them.
+# Spec Kit's design
 
-## Core Philosophy
+## Technology independence
 
-Spec-Driven Development is a structured process that emphasizes:
+* == create applications -- via -- DIFFERENT technology stacks OR programming languages OR frameworks
 
-- **Intent-driven development** where specifications define the "*what*" before the "*how*"
-- **Rich specification creation** using guardrails and organizational principles
-- **Multi-step refinement** rather than one-shot code generation from prompts
-- **Heavy reliance** on advanced AI model capabilities for specification interpretation
+## Accepts constraints
 
-## Development Phases
+* _Examples:_
+  * organizational constraints (cloud providers, tech stacks, engineering practices)
+  * compliance requirements
 
-| Phase | Focus | Key Activities |
-|-------|-------|----------------|
-| **0-to-1 Development** ("Greenfield") | Generate from scratch | <ul><li>Start with high-level requirements</li><li>Generate specifications</li><li>Plan implementation steps</li><li>Build production-ready applications</li></ul> |
-| **Creative Exploration** | Parallel implementations | <ul><li>Explore diverse solutions</li><li>Support multiple technology stacks & architectures</li><li>Experiment with UX patterns</li></ul> |
-| **Iterative Enhancement** ("Brownfield") | Brownfield modernization | <ul><li>Add features iteratively</li><li>Modernize legacy systems</li><li>Adapt processes</li></ul> |
+## Flexible -- to -- your preferences
 
-## Experimental Goals
+* _Examples:_
+  * support VARIOUS development approaches (vibe-coding, AI-native development, ...)
 
-Our research and experimentation focus on:
+## iterative & parallel processes
 
-### Technology Independence
+* parallel processes
+  * == generate >1 DIFFERENT implementations -- based on -- 1 specification
+* iterative processes
+  * == refine -- based on -- feedback loops
 
-- Create applications using diverse technology stacks
-- Validate the hypothesis that Spec-Driven Development is a process not tied to specific technologies, programming languages, or frameworks
+# Spec Kit's artifacts
 
-### Enterprise Constraints
+* allow
+  * implement SDD 
 
-- Demonstrate mission-critical application development
-- Incorporate organizational constraints (cloud providers, tech stacks, engineering practices)
-- Support enterprise design systems and compliance requirements
-
-### User-Centric Development
-
-- Build applications for different user cohorts and preferences
-- Support various development approaches (from vibe-coding to AI-native development)
-
-### Creative & Iterative Processes
-
-- Validate the concept of parallel implementation exploration
-- Provide robust iterative feature development workflows
-- Extend processes to handle upgrades and modernization tasks
+| Artifact      | Goal                              | File                              | SDD Principle                             | Produced by             |
+|---------------|-----------------------------------|-----------------------------------|-------------------------------------------|-------------------------|
+| Constitution  | Project principles and governance | `.specify/memory/constitution.md` | Rich specification with guardrails        | `/speckit.constitution` |
+| Specification | Requirements & user scenarios     | `specs/<feature>/spec.md`         | Intent-driven: define *what* before *how* | `/speckit.specify`      |
+| Plan          | Technical design & architecture   | `specs/<feature>/plan.md`         | Multi-step refinement (spec → plan)       | `/speckit.plan`         |
+| Tasks         | Actionable implementation tasks   | `specs/<feature>/tasks.md`        | Specifications become executable          | `/speckit.tasks`        |
+| Checklist     | Quality validation criteria       | `specs/<feature>/checklist.md`    | Rich specification with guardrails        | `/speckit.checklist`    |

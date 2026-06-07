@@ -1,58 +1,77 @@
 # Preset System Architecture
 
-This document describes the internal architecture of the preset system — how template resolution, command registration, and catalog management work under the hood.
-
-For usage instructions, see [README.md](README.md).
+* goal
+  * preset system's internal architecture
+  * how does 
+    * template resolution work?
+    * command registration work?
+    * catalog management work?
 
 ## Template Resolution
 
-When Spec Kit needs a template (e.g. `spec-template`), the `PresetResolver` walks a priority stack and returns the first match:
+* goal
+  * how does Spec Kit identify the template / use?
 
-```mermaid
-flowchart TD
-    A["resolve_template('spec-template')"] --> B{Override exists?}
-    B -- Yes --> C[".specify/templates/overrides/spec-template.md"]
-    B -- No --> D{Preset provides it?}
-    D -- Yes --> E[".specify/presets/‹preset-id›/templates/spec-template.md"]
-    D -- No --> F{Extension provides it?}
-    F -- Yes --> G[".specify/extensions/‹ext-id›/templates/spec-template.md"]
-    F -- No --> H[".specify/templates/spec-template.md"]
+* `priority` field
+  * lower number == higher precedence
+  * allows
+    * if there are installed >1 preset -> choose the preset
+  * if you want to set -> `specify preset add ... --priority`
 
-    E -- "multiple presets?" --> I["lowest priority number wins"]
-    I --> E
+| Priority    | Source                             | Path                                  | Use case                            |
+|-------------|------------------------------------|---------------------------------------|-------------------------------------|
+| 1 (highest) | Override                           | `.specify/templates/overrides/`       | One-off project-local tweaks        |
+| 2           | Preset                             | `.specify/presets/<id>/templates/`    | Shareable, stackable customizations |
+| 3           | Extension                          | `.specify/extensions/<id>/templates/` | Extension-provided templates        |
+| 4 (lowest)  | Core == Spec Kit's core templates  | `.specify/templates/`                 | NO preset is installed              |
 
-    style C fill:#4caf50,color:#fff
-    style E fill:#2196f3,color:#fff
-    style G fill:#ff9800,color:#fff
-    style H fill:#9e9e9e,color:#fff
-```
+* resolution
+  * handled by
+    * | "src/specify_cli/presets.py", `PresetResolver`
+      * uses
+        * | run `specify ...`
+    * | "scripts/bash/common.sh", `resolve_template()`
+      * uses
+        * agent runs  `/speckit.*` commands
+    * | "scripts/powershell/common.ps1", `Resolve-Template`
+      * uses
+        * agent runs  `/speckit.*` commands
+  * happens | runtime
+    * / EACH template lookup
+  * _Example:_ how to resolve "spec-template"
 
-| Priority | Source | Path | Use case |
-|----------|--------|------|----------|
-| 1 (highest) | Override | `.specify/templates/overrides/` | One-off project-local tweaks |
-| 2 | Preset | `.specify/presets/<id>/templates/` | Shareable, stackable customizations |
-| 3 | Extension | `.specify/extensions/<id>/templates/` | Extension-provided templates |
-| 4 (lowest) | Core | `.specify/templates/` | Shipped defaults |
-
-When multiple presets are installed, they're sorted by their `priority` field (lower number = higher precedence). This is set via `--priority` on `specify preset add`.
-
-The resolution is implemented three times to ensure consistency:
-- **Python**: `PresetResolver` in `src/specify_cli/presets.py`
-- **Bash**: `resolve_template()` in `scripts/bash/common.sh`
-- **PowerShell**: `Resolve-Template` in `scripts/powershell/common.ps1`
+  ```mermaid
+  flowchart TD
+      A["resolve_template('spec-template')"] --> B{Override exists?}
+      B -- Yes --> C[".specify/templates/overrides/spec-template.md"]
+      B -- No --> D{Preset provides it?}
+      D -- Yes --> E[".specify/presets/‹preset-id›/templates/spec-template.md"]
+      D -- No --> F{Extension provides it?}
+      F -- Yes --> G[".specify/extensions/‹ext-id›/templates/spec-template.md"]
+      F -- No --> H[".specify/templates/spec-template.md"]
+  
+      E -- "multiple presets?" --> I["lowest priority number wins"]
+      I --> E
+  
+      style C fill:#4caf50,color:#fff
+      style E fill:#2196f3,color:#fff
+      style G fill:#ff9800,color:#fff
+      style H fill:#9e9e9e,color:#fff
+  ```
 
 ### Composition Strategies
 
 Templates, commands, and scripts support a `strategy` field that controls how a preset's content is combined with lower-priority content instead of fully replacing it:
 
-| Strategy | Description | Templates | Commands | Scripts |
-|----------|-------------|-----------|----------|---------|
-| `replace` (default) | Fully replaces lower-priority content | ✓ | ✓ | ✓ |
-| `prepend` | Places content before lower-priority content (separated by a blank line) | ✓ | ✓ | — |
-| `append` | Places content after lower-priority content (separated by a blank line) | ✓ | ✓ | — |
-| `wrap` | Content contains `{CORE_TEMPLATE}` (templates/commands) or `$CORE_SCRIPT` (scripts) placeholder replaced with lower-priority content | ✓ | ✓ | ✓ |
+| Strategy            | Description                                                                                                                          | Templates  | Commands  | Scripts  |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------------|------------|-----------|----------|
+| `replace` (default) | Fully replaces lower-priority content                                                                                                | ✓          | ✓         | ✓        |
+| `prepend`           | Places content before lower-priority content (separated by a blank line)                                                             | ✓          | ✓         | —        |
+| `append`            | Places content after lower-priority content (separated by a blank line)                                                              | ✓          | ✓         | —        |
+| `wrap`              | Content contains `{CORE_TEMPLATE}` (templates/commands) or `$CORE_SCRIPT` (scripts) placeholder replaced with lower-priority content | ✓          | ✓         | ✓        |
 
-Composition is recursive — multiple composing presets chain. The `PresetResolver.resolve_content()` method walks the full priority stack bottom-up and applies each layer's strategy.
+Composition is recursive — multiple composing presets chain
+* The `PresetResolver.resolve_content()` method walks the full priority stack bottom-up and applies each layer's strategy.
 
 Content resolution functions for composition:
 - **Python**: `PresetResolver.resolve_content()` in `src/specify_cli/presets.py` (templates, commands, and scripts)
@@ -89,7 +108,9 @@ flowchart TD
 
 ### Extension safety check
 
-Command names follow the pattern `speckit.<ext-id>.<cmd-name>`. When a command has 3+ dot segments, the system extracts the extension ID and checks if `.specify/extensions/<ext-id>/` exists. If the extension isn't installed, the command is skipped — preventing orphan files referencing non-existent extensions.
+Command names follow the pattern `speckit.<ext-id>.<cmd-name>`
+* When a command has 3+ dot segments, the system extracts the extension ID and checks if `.specify/extensions/<ext-id>/` exists
+* If the extension isn't installed, the command is skipped — preventing orphan files referencing non-existent extensions.
 
 Core commands (e.g. `speckit.specify`, with only 2 segments) are always registered.
 
@@ -129,38 +150,8 @@ flowchart TD
     style K fill:#9e9e9e,color:#fff
 ```
 
-Catalogs are fetched with a 1-hour cache (per-URL, SHA256-hashed cache files). Each catalog entry has a `priority` (for merge ordering) and `install_allowed` flag.
-
-## Repository Layout
-
-```
-presets/
-├── ARCHITECTURE.md                         # This file
-├── PUBLISHING.md                           # Guide for submitting presets to the catalog
-├── README.md                               # User guide
-├── catalog.json                            # Official preset catalog
-├── catalog.community.json                  # Community preset catalog
-├── scaffold/                               # Scaffold for creating new presets
-│   ├── preset.yml                          # Example manifest
-│   ├── README.md                           # Guide for customizing the scaffold
-│   ├── commands/
-│   │   ├── speckit.specify.md              # Core command override example
-│   │   └── speckit.myext.myextcmd.md       # Extension command override example
-│   └── templates/
-│       ├── spec-template.md                # Core template override example
-│       └── myext-template.md               # Extension template override example
-└── self-test/                              # Self-test preset (overrides all core templates)
-    ├── preset.yml
-    ├── commands/
-    │   └── speckit.specify.md
-    └── templates/
-        ├── spec-template.md
-        ├── plan-template.md
-        ├── tasks-template.md
-        ├── checklist-template.md
-        ├── constitution-template.md
-        └── agent-file-template.md
-```
+Catalogs are fetched with a 1-hour cache (per-URL, SHA256-hashed cache files)
+* Each catalog entry has a `priority` (for merge ordering) and `install_allowed` flag.
 
 ## Module Structure
 

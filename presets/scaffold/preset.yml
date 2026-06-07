@@ -1,16 +1,21 @@
 schema_version: "1.0"
 
 preset:
-  # CUSTOMIZE: Change 'my-preset' to your preset ID (lowercase, hyphen-separated)
+  # == preset ID
+  # requirements
+  #   lowercase
+  #   hyphen-separated
   id: "my-preset"
 
-  # CUSTOMIZE: Human-readable name for your preset
+  # == preset's Human-readable name
   name: "My Preset"
 
-  # CUSTOMIZE: Update version when releasing (semantic versioning: X.Y.Z)
+  # semantic versioning: X.Y.Z
   version: "1.0.0"
 
-  # CUSTOMIZE: Brief description (under 200 characters)
+  # == Brief description
+  # requirements
+  #   < 200 characters
   description: "Brief description of what your preset provides"
 
   # CUSTOMIZE: Your name or organization name
@@ -24,7 +29,7 @@ preset:
 
 # Requirements for this preset
 requires:
-  # CUSTOMIZE: Minimum spec-kit version required
+  # MINIMUM spec-kit version
   speckit_version: ">=0.1.0"
 
 # Templates provided by this preset

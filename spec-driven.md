@@ -1,7 +1,7 @@
 # Specification-Driven Development (SDD)
 
 * SDD
-  * 💡specifications become executable💡
+  * goal: 💡specifications become executable💡
     * == ⭐️specifications generate working implementations (rather than just guiding them)⭐️  
   * ❌!= traditional software development❌
 
@@ -161,7 +161,7 @@ The key is treating specifications as the source of truth, with code as the gene
 
 The SDD methodology is significantly enhanced through three powerful commands that automate the specification → planning → tasking workflow:
 
-### The `/speckit.specify` Command
+### `/speckit.specify` Command
 
 This command transforms a simple feature description (the user-prompt) into a complete, structured specification with automatic repository management:
 
@@ -170,7 +170,7 @@ This command transforms a simple feature description (the user-prompt) into a co
 3. **Template-Based Generation**: Copies and customizes the feature specification template with your requirements
 4. **Directory Structure**: Creates the proper `specs/[branch-name]/` structure for all related documents
 
-### The `/speckit.plan` Command
+### `/speckit.plan` Command
 
 Once a feature specification exists, this command creates a comprehensive implementation plan:
 
@@ -180,7 +180,7 @@ Once a feature specification exists, this command creates a comprehensive implem
 4. **Detailed Documentation**: Generates supporting documents for data models, API contracts, and test scenarios
 5. **Quickstart Validation**: Produces a quickstart guide capturing key validation scenarios
 
-### The `/speckit.tasks` Command
+### `/speckit.tasks` Command
 
 After a plan is created, this command analyzes the plan and related design documents to generate an executable task list:
 
@@ -511,3 +511,11 @@ By embedding these principles into the specification and planning process, SDD e
     * specifications + research + code, evolve together
     * deeper understanding / EACH iteration
     * BETTER alignment BETWEEN intent -- & -- implementation / EACH iteration
+
+## Development phases
+
+| Phase                                    | Focus                       | Key Activities                                                                                                                                                                                                                           |
+| ---------------------------------------- |-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **0-to-1 Development** ("Greenfield")    | Generate -- from -- scratch | <ul><li>high-level requirements</li><li>Generate specifications (SDD-related)<ul><li>Reason: 🧠\| other methodologies, NOT necessary🧠</li></ul></li><li>Plan implementation steps</li><li>Build production-ready applications</li></ul> |
+| **Creative Exploration**                 | Parallel implementations    | <ul><li>Explore diverse solutions</li><li>Support MULTIPLE technology stacks & architectures</li><li>Experiment -- with -- UX patterns</li></ul>                                                                                         |
+| **Iterative Enhancement** ("Brownfield") | Brownfield modernization    | <ul><li>Add features iteratively</li><li>Modernize legacy systems</li><li>Adapt processes</li></ul>                                                                                                                                      |
