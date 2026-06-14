@@ -1,12 +1,5 @@
 # Spec Kit
 
-## Getting Started
-
-* [Installation Guide](installation.md)
-* [Quick Start Guide](quickstart.md)
-* [Upgrade Guide](upgrade.md)
-* [Local Development](local-development.md)
-
 TODO:
 
 ### Spec-driven by default
@@ -17,12 +10,6 @@ Define what to build before building it
 * Rich templates, quality checklists, and cross-artifact analysis come out of the box
 * Each phase produces a Markdown artifact that feeds the next — giving your AI coding agent structured context instead of ad-hoc prompts.
 
-<a href="quickstart.md" class="pillar-link">Walk through the workflow →</a>
-
-</div>
-
-<div class="pillar-card">
-
 ### Use any coding agent
 
 <span class="pillar-stat">30 integrations</span> — Copilot, Gemini, Codex, Windsurf, Claude, Forge, Kiro, and more
@@ -31,12 +18,6 @@ Define what to build before building it
 
 Run `specify init` with your agent of choice and Spec Kit sets up the right command files, context rules, and directory structures automatically
 * If your agent isn't listed, the `generic` integration is an escape hatch for any tool.
-
-<a href="reference/integrations.md" class="pillar-link">See all integrations →</a>
-
-</div>
-
-<div class="pillar-card">
 
 ### Make it your own
 
@@ -65,10 +46,4 @@ Community extensions like CI Guard and Architecture Guard add compliance gates a
 <a href="installation.md" class="pillar-link">Installation guide →</a>&nbsp;&nbsp;
 <a href="reference/extensions.md" class="pillar-link">Extensions reference →</a>
 
-</div>
 
-</div>
-
----
-
-<div class="community-section">

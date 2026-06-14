@@ -1,8 +1,61 @@
 # Spec Kit Integration
 
-* allows
-  * connecting Spec Kit -- to -- >= 1 AI coding agent | 1! project
-    * ⚠️if you want >1 -> you need Spec Kit v0.8.5⚠️
+* Spec Kit Integration
+  * == adapter / 
+    * allows
+      * connecting Spec Kit -- to -- >= 1 AI coding agent | 1! project
+        * ⚠️if you want >1 -> you need Spec Kit v0.8.5⚠️
+        * == Spec Kit's core templates are transformed -- to -- AI coding agent's specific format & location
+    * identified -- by -- 1! key
+    * types
+      * CLI required
+        * CLI-based
+          * _Examples:_ claude, gemini, codex
+          * == ⚠️requires ⚠️
+            * install the CLI tool
+        * IDE-based
+          * _Examples:_ windsurf, cursor-agent, copilot
+          * == ⚠️requires⚠️
+            * IDE/extension
+      * MULTI-install safe
+        * == dedicated agent root + dedicated command directory + dedicated context file
+          * [source code](/spec-kit/src/specify_cli/integrations)
+          * integrations / share a context file OR command directory -- with -- ANOTHER integration -> require
+            * dynamic install paths, OR
+              * _Example:_ `--commands-dir`
+            * merge shared tool settings / by default, NOT declared safe
+    * 's output
+      * command files | specific AI coding agent's directory
+      * specific AI coding agent's context file
+        * _Examples:_
+          * CLAUDE.md
+          * GEMINI.md
+          * ...
+      * specific scripts | ".specify/scripts"
+
+* ".specify/integration.json"
+  * [source code](/spec-kit/src/specify_cli/integration_state.py)
+  * schema
+    * `.integration`
+      * == legacy field /
+        * == alias -- for the -- default integration
+    * `.installed_integrations`
+      * == ALL installed integrations
+    * `.integration_settings`
+      * == runtime settings / EACH integration
+
+    ```json
+    {
+      "integration_state_schema": 1,
+      "integration": "claude",
+      "default_integration": "claude",
+      "installed_integrations": ["claude", "gemini"],
+      "integration_settings": {
+        "claude": { "script": "sh" },
+        "gemini": { "script": "sh" }
+      }
+    }
+    ```
 
 ## Catalog
 
@@ -76,43 +129,11 @@ specify integration upgrade
 specify integration upgrade --force
 ```
 
-## Integration Descriptor -- integration.yml --
-
-* documents the integration's
-  * metadata
-  * requirements
-  * provided commands/scripts
-* [source code](/spec-kit/src/specify_cli/integrations/catalog.py)'s `IntegrationDescriptor`
-* uses
-  * ⚠️[community integrations](catalog.community.json)⚠️
-    * Reason:🧠built-in are -- based on -- programmatically🧠
-
-### MANDATORY fields
-
-| Field            | Type   | Description                      |
-|------------------|--------|----------------------------------|
-| `schema_version` | string | Must be `"1.0"`                  |
-| `requires`       | object | MINIMUM requirements             |
-| `provides`       | object | PROVIDED commands & scripts      |
-| `integrations`   | object | Map of integration ID → metadata |
-
-### `.integration`
-
-| Field         | Type | Required  | Description                                  |
-|---------------|------|-----------|----------------------------------------------|
-| `id`          | string | Yes       | Unique ID (lowercase alphanumeric + hyphens) |
-| `name`        | string | Yes       | Human-readable display name                  |
-| `version`     | string | Yes       | PEP 440 version (e.g., `1.0.0`, `1.0.0a1`)   |
-| `description` | string | Yes       | One-line description                         |
-| `author`      | string | No        | Author name or organization                  |
-| `repository`  | string | No        | Source repository URL                        |
-| `tags`        | array | No        | Searchable tags (e.g., `["cli", "ide"]`)     |
-
-## how to add integrations | community catalog?
+### how to add integrations | community catalog?
 
 * [here](CONTRIBUTING.md)
 
-## how to install an integration | CURRENT project?
+### how to install an integration | CURRENT project?
 
 ```bash
 specify integration install <key> [OPTION]
@@ -131,43 +152,64 @@ specify integration install <key> [OPTION]
       * `specify integration switch`
   * ❌NOT change the default integration❌
     * ⚠️if you want to change the default integration -> `specify integration use <key>`⚠️
-* if the installation 
+* if the installation
   * fails -> AUTOMATICALLY rolls back -- to a -- clean state
   * NOT ALLOWED because there is ALREADY installed agent -> [upgrade Spec Kit](../docs/upgrade.md)
 
 * | start a NEW project, you can install DIRECTLY a specific agent -> [`specify init <project> --integration <key>`](../docs/cli.md)
 
-## Uninstall an Integration
+### how to uninstall an integration?
 
 ```bash
 specify integration uninstall [<key>]
+# [<key>]
+#   == OPTIONAL
+#     if you do NOT specify -> uninstall the default one
 ```
 
-| Option    | Description                                         |
-| --------- | --------------------------------------------------- |
-| `--force` | Remove files even if they have been modified         |
+| Option    | Description                                      | 
+| --------- |--------------------------------------------------|
+| `--force` | even if they have been modified -> remove files  |
 
-Uninstalls the current integration (or the specified one). Spec Kit tracks every file created during install along with a SHA-256 hash of the original content:
+TODO: 
+Spec Kit tracks every file created during install along with a SHA-256 hash of the original content:
 
 - **Unmodified files** are removed automatically.
 - **Modified files** (where you've made manual edits) are preserved so your customizations are not lost.
 - Use `--force` to remove all integration files regardless of modifications.
 
-## Switch to a Different Integration
+Files you've modified are preserved automatically
+* Only unmodified files (matching their original SHA-256 hash) are removed
+* Use `--force` to override this.
+
+### how to switch -- to a -- DIFFERENT integration?
 
 ```bash
 specify integration switch <key>
 ```
 
-| Option                   | Description                                                              |
-| ------------------------ | ------------------------------------------------------------------------ |
-| `--script sh\|ps`        | Script type: `sh` (bash/zsh) or `ps` (PowerShell)                        |
+| Option                   | Description                                                                                                                                           |
+| ------------------------ |-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `--script sh\|ps`        | Script type: `sh` (bash/zsh) or `ps` (PowerShell)                                                                                                     |
 | `--force`                | Force removal of modified files during uninstall; when the target is already installed, overwrite managed shared templates while changing the default |
-| `--integration-options`  | Options for the target integration when it is not already installed      |
+| `--integration-options`  | Options for the target integration when it is not already installed                                                                                   |
 
-If the target integration is not already installed, equivalent to running `uninstall` followed by `install` in a single step. In this mode, `--force` controls whether modified files from the removed integration are deleted. If the target integration is already installed, `switch` only changes the default integration, like `use`; in this mode, `--force` controls whether managed shared templates are overwritten while the default changes. `--integration-options` is rejected for already-installed targets because changing integration options requires reinstalling managed files; run `upgrade <key> --integration-options ...` first, then `use <key>`.
+If the target integration is not already installed, equivalent to running `uninstall` followed by `install` in a single step
+In this mode, `--force` controls whether modified files from the removed integration are deleted
+If the target integration is already installed, 
+`switch` only changes the default integration, like `use`;
+in this mode, `--force` controls whether managed shared templates are overwritten while the default changes
+`--integration-options` is rejected for already-installed targets because changing integration options
+requires reinstalling managed files; run `upgrade <key> --integration-options ...` first, then `use <key>`.
 
-## Use an Installed Integration
+Files you've modified are preserved automatically
+* Only unmodified files (matching their original SHA-256 hash) are removed
+* Use `--force` to override this.
+
+* Use `switch` when you want to replace the current default with another integration; if the target is already installed,
+  `switch` behaves like `use`.
+
+### how to use an installed Integration?
 
 ```bash
 specify integration use <key>
@@ -179,7 +221,7 @@ specify integration use <key>
 
 Sets the default integration without uninstalling any other installed integrations. This also refreshes managed shared templates so command references match the new default integration's invocation style. Modified or untracked shared templates are preserved unless `--force` is used.
 
-## Upgrade an Integration
+### how to upgrade an integration?
 
 ```bash
 specify integration upgrade [<key>]
@@ -191,72 +233,36 @@ specify integration upgrade [<key>]
 | `--script sh\|ps`        | Script type: `sh` (bash/zsh) or `ps` (PowerShell)                        |
 | `--integration-options`  | Options for the integration                                              |
 
-Reinstalls an installed integration with updated templates and commands (e.g., after upgrading Spec Kit). Defaults to the default integration; if a key is provided, it must be one of the installed integrations. Detects locally modified files and blocks the upgrade unless `--force` is used. Stale files from the previous install that are no longer needed are removed automatically. Shared templates stay aligned with the default integration even when upgrading a non-default integration.
+Reinstalls an installed integration with updated templates and commands (e.g., after upgrading Spec Kit)
+Defaults to the default integration; if a key is provided, it must be one of the installed integrations
+Detects locally modified files and blocks the upgrade unless `--force` is used
+Stale files from the previous install that are no longer needed are removed automatically
+* Shared templates stay aligned with the default integration even when upgrading a non-default integration.
 
-## Integration-Specific Options
+Use `upgrade` when you've upgraded Spec Kit and want to refresh an installed integration's managed files
 
-Some integrations accept additional options via `--integration-options`:
+## Integration Descriptor -- integration.yml --
 
-| Integration | Option              | Description                                                    |
-| ----------- | ------------------- | -------------------------------------------------------------- |
-| `generic`   | `--commands-dir`    | Required. Directory for command files                          |
-| `kimi`      | `--migrate-legacy`  | Migrate legacy dotted skill directories to hyphenated format   |
+* documents the integration's
+  * metadata
+  * requirements
+  * provided commands/scripts
+* [source code](/spec-kit/src/specify_cli/integrations/catalog.py)'s `IntegrationDescriptor`
+* uses
+  * ⚠️[community integrations](catalog.community.json)⚠️
+    * Reason:🧠built-in are -- based on -- programmatically🧠
+
+## Integration-specific Options -- `--integration-options` --
+
+Some integrations accept additional options via `--integration-options`
+
+| Integration | Option              | Description                                                  |
+| ----------- | ------------------- |--------------------------------------------------------------|
+| `generic`   | `--commands-dir`    | Required  Directory for command files                        |
+| `kimi`      | `--migrate-legacy`  | Migrate legacy dotted skill directories to hyphenated format |
 
 Example:
 
 ```bash
 specify integration install generic --integration-options="--commands-dir .myagent/cmds"
 ```
-
-## FAQ
-
-### Can I install multiple integrations in the same project?
-
-Yes, but it is intended for team portability rather than the default workflow. Multiple integrations are allowed automatically only when the installed integration and the new integration are declared multi-install safe by Spec Kit. For other combinations, pass `--force` to acknowledge that multiple agents may see unrelated agent-specific instructions or commands.
-
-Spec Kit tracks one default integration in `.specify/integration.json` with `default_integration`, all installed integrations with `installed_integrations`, per-integration runtime settings with `integration_settings`, and a dedicated `integration_state_schema` for future state migrations. The legacy `integration` field remains as an alias for the default integration.
-
-### Which integrations are multi-install safe?
-
-An integration is multi-install safe when it uses isolated agent directories, a dedicated context file that does not collide with another safe integration, stable command invocation settings, and a separate install manifest. Shared Spec Kit templates remain aligned to the single default integration.
-
-The currently declared multi-install safe integrations are:
-
-| Key | Isolation |
-| --- | --------- |
-| `auggie` | `.augment/commands`, `.augment/rules/specify-rules.md` |
-| `claude` | `.claude/skills`, `CLAUDE.md` |
-| `codebuddy` | `.codebuddy/commands`, `CODEBUDDY.md` |
-| `codex` | `.agents/skills`, `AGENTS.md` |
-| `cursor-agent` | `.cursor/skills`, `.cursor/rules/specify-rules.mdc` |
-| `gemini` | `.gemini/commands`, `GEMINI.md` |
-| `iflow` | `.iflow/commands`, `IFLOW.md` |
-| `junie` | `.junie/commands`, `.junie/AGENTS.md` |
-| `kilocode` | `.kilocode/workflows`, `.kilocode/rules/specify-rules.md` |
-| `kimi` | `.kimi/skills`, `KIMI.md` |
-| `qodercli` | `.qoder/commands`, `QODER.md` |
-| `qwen` | `.qwen/commands`, `QWEN.md` |
-| `roo` | `.roo/commands`, `.roo/rules/specify-rules.md` |
-| `shai` | `.shai/commands`, `SHAI.md` |
-| `tabnine` | `.tabnine/agent/commands`, `TABNINE.md` |
-| `trae` | `.trae/skills`, `.trae/rules/project_rules.md` |
-| `windsurf` | `.windsurf/workflows`, `.windsurf/rules/specify-rules.md` |
-
-Integrations that share a context file or command directory with another integration, require dynamic install paths such as `--commands-dir`, or merge shared tool settings are not declared safe by default. They can still be installed alongside another integration with `--force`.
-
-### What happens to my changes when I uninstall or switch?
-
-Files you've modified are preserved automatically. Only unmodified files (matching their original SHA-256 hash) are removed. Use `--force` to override this.
-
-### How do I know which key to use?
-
-Run `specify integration list` to see all available integrations with their keys, or check the [Supported AI Coding Agents](#supported-ai-coding-agents) table above.
-
-### Do I need the AI coding agent installed to use an integration?
-
-CLI-based integrations (like Claude Code, Gemini CLI) require the tool to be installed. IDE-based integrations (like Windsurf, Cursor) work through the IDE itself. Some agents like GitHub Copilot support both IDE and CLI usage. `specify integration list` shows which type each integration is.
-
-### When should I use `upgrade` vs `switch`?
-
-Use `upgrade` when you've upgraded Spec Kit and want to refresh an installed integration's managed files. Use `switch` when you want to replace the current default with another integration; if the target is already installed, `switch` behaves like `use`.
-

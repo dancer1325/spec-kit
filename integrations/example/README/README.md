@@ -1,6 +1,41 @@
-# allows: connecting Spec Kit -- to -- >= 1 AI coding agent | 1! project
+# == adapter
 TODO:
-## ⚠️if you want >1 -> you need Spec Kit v0.8.5⚠️
+## allows: connecting Spec Kit -- to -- >= 1 AI coding agent | 1! project
+TODO:
+### ⚠️if you want >1 -> you need Spec Kit v0.8.5⚠️
+TODO:
+### == Spec Kit's core templates are transformed -- to -- AI coding agent's specific format & location
+TODO:
+## types
+### CLI required
+* [here](https://github.com/dancer1325/spec-kit-firstExample)
+  * `specify integration list`
+### MULTI-install safe
+* [here](https://github.com/dancer1325/spec-kit-firstExample)
+  * `specify integration list`
+#### == dedicated agent root + dedicated command directory + dedicated context file
+* [here](https://github.com/dancer1325/spec-kit-firstExample)
+* .claude/
+  * == dedicated agent root
+* .claude/commands
+  * == dedicated command directory
+* CLAUDE.md
+  * NO exist
+    * Reason:🧠it was
+      * created -- via -- `--ai claude`
+      * NOT created -- via -- `--integration claude`🧠
+## identified -- by -- 1! key
+* | [here](https://github.com/dancer1325/spec-kit-firstExample)
+  * `specify integration list`
+## 's output
+### command files | specific AI coding agent's directory
+TODO:
+### specific AI coding agent's context file
+TODO
+### specific scripts | ".specify/scripts"
+TODO:
+
+# ".specify/integration.json"
 TODO: 
 
 # Catalog

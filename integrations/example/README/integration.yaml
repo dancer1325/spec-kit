@@ -1,19 +1,36 @@
 schema_version: "1.0"
 integration:
   id: "my-agent"
+  # == UNIQUE ID
+  # requirements
+  #   lowercase alphanumeric
+  #    hyphens
+
   name: "My Agent"
+  # == Human-readable display name
+
   version: "1.0.0"
+  # PEP 440 version
+  #   _Examples:_ `1.0.0`, `1.0.0a1`
+
   description: "Integration for My Agent"
+  # == 1-line description
   author: "my-org"
   repository: "https://github.com/my-org/speckit-my-agent"
   license: "MIT"
+
+  tags:
+    - "cli"
+    - "ide"
 requires:
+  # MINIMUM requirements
   speckit_version: ">=0.6.0"
   tools:
     - name: "my-agent"
       version: ">=1.0.0"
       required: true
 provides:
+  # PROVIDED commands & scripts
   commands:
     - name: "speckit.specify"
       file: "templates/speckit.specify.md"

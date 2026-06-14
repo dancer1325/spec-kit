@@ -1,10 +1,10 @@
 # Contributing to the Integration Catalog
 
-This guide covers adding integrations to both the **built-in** and **community** catalogs.
+* how to add integrations | 
+  * **built-in** catalog
+  * **community** catalogs
 
-## Adding a Built-In Integration
-
-Built-in integrations are maintained by the Spec Kit core team and ship with the CLI.
+## how to add a built-in integration?
 
 ### Checklist
 
@@ -37,7 +37,7 @@ Add your integration under the top-level `integrations` key in `integrations/cat
 }
 ```
 
-## Adding a Community Integration
+## how to add a community integration?
 
 Community integrations are contributed by external developers and listed in `integrations/catalog.community.json` for discovery.
 
@@ -124,14 +124,19 @@ To update your integration version in the catalog:
 2. Open a PR updating the `version` field in `catalog.community.json`
 3. Ensure backward compatibility or document breaking changes
 
-## Upgrade Workflow
+## Upgrade Workflow -- `specify integration upgrade` --
 
-The `specify integration upgrade` command supports diff-aware upgrades:
+* supports
+  * diff-aware upgrades
+    * == compare original files vs current files
+      * | install,
 
 1. **Hash comparison** — the manifest records SHA-256 hashes of all installed files
 2. **Modified file detection** — files changed since installation are flagged
 3. **Safe default** — the upgrade blocks if any installed files were modified since installation
-4. **Forced reinstall** — passing `--force` overwrites modified files with the latest version
+4. **Forced reinstall** 
+   * -- by -- passing `--force`
+   * overwrites modified files -- with -- the latest version
 
 ```bash
 # Upgrade current integration (blocks if files are modified)
