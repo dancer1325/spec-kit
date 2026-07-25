@@ -1,5 +1,6 @@
 # Enterprise / Air-Gapped Installation
 
+TODO: 
 If your environment blocks access to PyPI or GitHub, you can create a portable wheel bundle on a connected machine and transfer it to the air-gapped target.
 
 ## Step 1: Build the wheel on a connected machine

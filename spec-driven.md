@@ -512,10 +512,12 @@ By embedding these principles into the specification and planning process, SDD e
     * deeper understanding / EACH iteration
     * BETTER alignment BETWEEN intent -- & -- implementation / EACH iteration
 
-## Development phases
+## -- based on -- project's development phase
 
-| Phase                                    | Focus                       | Key Activities                                                                                                                                                                                                                           |
-| ---------------------------------------- |-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+
+
+| Project's development phase              | Focus                       | Key Activities                                                                                                                                                                                                                           |
+|------------------------------------------|-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **0-to-1 Development** ("Greenfield")    | Generate -- from -- scratch | <ul><li>high-level requirements</li><li>Generate specifications (SDD-related)<ul><li>Reason: 🧠\| other methodologies, NOT necessary🧠</li></ul></li><li>Plan implementation steps</li><li>Build production-ready applications</li></ul> |
 | **Creative Exploration**                 | Parallel implementations    | <ul><li>Explore diverse solutions</li><li>Support MULTIPLE technology stacks & architectures</li><li>Experiment -- with -- UX patterns</li></ul>                                                                                         |
 | **Iterative Enhancement** ("Brownfield") | Brownfield modernization    | <ul><li>Add features iteratively</li><li>Modernize legacy systems</li><li>Adapt processes</li></ul>                                                                                                                                      |

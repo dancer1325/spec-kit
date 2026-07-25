@@ -1,102 +1,82 @@
-# Core Commands
+# Core Commands -- `specify <COMMAND_NAME>` --
 
-The core `specify` commands handle project initialization, system checks, and version information.
+* allows
+  * manage Spec Kit projects
 
-The foundational commands for creating and managing Spec Kit projects
-* Initialize a new project with the necessary directory structure, templates, and scripts
-* Verify that your system has the required tools installed
-* Check version and system information.
-
-## Initialize a Project
+## `specify init` -- initialize a Specify Project --
 
 ```bash
 specify init [<project_name>]
 ```
 
-| Option                   | Description                                                              |
-| ------------------------ | ------------------------------------------------------------------------ |
-| `--integration <key>`    | AI coding agent integration to use (e.g. `copilot`, `claude`, `gemini`). See the [Integrations reference](integrations.md) for all available keys |
-| `--integration-options`  | Options for the integration (e.g. `--integration-options="--commands-dir .myagent/cmds"`) |
-| `--script sh\|ps`        | Script type: `sh` (bash/zsh) or `ps` (PowerShell)                       |
-| `--here`                 | Initialize in the current directory instead of creating a new one        |
-| `--force`                | Force merge/overwrite when initializing in an existing directory         |
-| `--no-git`               | Skip git repository initialization                                       |
-| `--ignore-agent-tools`   | Skip checks for AI coding agent CLI tools                                |
-| `--preset <id>`          | Install a preset during initialization                                   |
-| `--branch-numbering`     | Branch numbering strategy: `sequential` (default) or `timestamp`         |
+* add
+  * directory structure + templates + scripts + AI coding agent integration files 
+* [source code](/spec-kit/src/specify_cli/commands/init.py)'s `def init(`
 
-Creates a new Spec Kit project with the necessary directory structure, templates, scripts, and AI coding agent integration files.
+| Argument/Option          | Type     | Description                                                                                                                                                                                                   |
+|--------------------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `<project-name>`         | Argument | if you use `--here` OR `.` -> OPTIONAL                                                                                                                                                                        |
+| `--script sh\|ps`        | Option   | == script variant to use <br/> &nbsp;&nbsp; `sh` (bash/zsh) <br/> &nbsp;&nbsp; `ps` (PowerShell) <br/> AUTOMATICALLY chosen -- based on -- OS <br/> &nbsp;&nbsp; Windows: `ps` <br/> &nbsp;&nbsp; Rest: `sh`  |
+| `--ignore-agent-tools`   | Flag     | Skip checks for AI agent tools <br/> _Example:_ if you choose claude -> skip checking you have installed Claude Code <br/> use cases: CI/CD                                                                   |
+| `--no-git`               | Flag     | Skip git repository initialization                                                                                                                                                                            |
+| `--here`                 | Flag     | Initialize project \| CURRENT directory                                                                                                                                                                       |
+| `--force`                | Flag     | \| current & NON empty directory, force (== skip confirmation) merge/overwrite <br/> use cases: CI/CD, re-initialize                                                                                          |
+| `--integration <key>`    | Option   | [here](integrations.md) <br/> if you do NOT specify it -> chosen \| prompt                                                                                                                                    |
+| `--integration-options`  | Option   | Options for the integration (e.g. `--integration-options="--skills"`)                                                                                                                                         |
+| `--preset <id>`          | Option   | install a preset                                                                                                                                                                                              |
+| `--branch-numbering`     | Option   | Branch numbering strategy: `sequential` (001, 002, …) or `timestamp` (YYYYMMDD-HHMMSS)                                                                                                                        |
 
-> [!NOTE]
-> The git extension is currently enabled by default during `specify init`.
-> Starting in `v0.10.0`, it will require explicit opt-in. To add it after init, run `specify extension add git`.
+* | Github SpecKit v0.10.0-
+  * by default,
+    * has git extension
+* | Github SpecKit v0.10.0+
+  * if you want git extension -> you need to run `specify extension add git`
 
-Use `<project_name>` to create a new directory, or `--here` (or `.`) to initialize in the current directory. If the directory already has files, use `--force` to merge without confirmation.
+| Variable          | Description                                                                                                                                                                                         |
+| ----------------- |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `SPECIFY_FEATURE` | \| non-Git repositories <br/> &nbsp;&nbsp; override feature detection <br/> \| NOT use Git branches <br/> &nbsp;&nbsp; set to the feature directory name <br/> requirements: BEFORE `/speckit.plan` |
 
-When `--integration` is omitted, interactive terminals prompt you to choose an integration. Non-interactive sessions, such as CI or piped runs, default to GitHub Copilot; pass `--integration <key>` to choose a different integration explicitly.
-
-### Examples
-
-```bash
-# Create a new project with an integration
-specify init my-project --integration copilot
-
-# Initialize in the current directory
-specify init --here --integration copilot
-
-# Force merge into a non-empty directory
-specify init --here --force --integration copilot
-
-# Use PowerShell scripts (Windows/cross-platform)
-specify init my-project --integration copilot --script ps
-
-# Skip git initialization
-specify init my-project --integration copilot --no-git
-
-# Install a preset during initialization
-specify init my-project --integration copilot --preset compliance
-
-# Use timestamp-based branch numbering (useful for distributed teams)
-specify init my-project --integration copilot --branch-numbering timestamp
-```
-
-### Environment Variables
-
-| Variable          | Description                                                              |
-| ----------------- | ------------------------------------------------------------------------ |
-| `SPECIFY_FEATURE` | Override feature detection for non-Git repositories. Set to the feature directory name (e.g., `001-photo-albums`) to work on a specific feature when not using Git branches. Must be set in the context of the agent prior to using `/speckit.plan` or follow-up commands. |
-
-## Check Installed Tools
+## `specify check` -- check installed tools
 
 ```bash
 specify check
 ```
 
-Checks that required tools are available on your system: `git` and any CLI-based AI coding agents. IDE-based agents are skipped since they don't require a CLI tool.
+* required tools
+  * git
+  * CLI-based AI coding agents
 
-This command stays offline. If a command behaves like an older Spec Kit version or an expected CLI feature is missing, run `specify self check` to check whether your local CLI is behind the latest release.
-
-## Version Information
-
-```bash
-specify version
-```
-
-Displays the Spec Kit CLI version, Python version, platform, and architecture.
-
-To inspect local CLI capabilities without checking the network:
+## `specify self check` -- check specify itself
 
 ```bash
-specify version --features
-specify version --features --json
+specify self check
 ```
 
-The JSON form is intended for scripts and coding agents that need to choose a
-workflow based on the installed CLI's supported features.
+* check if there are newer specify version
+* ⚠️read-only⚠️
+  * == ❌NEVER modify your installation❌
+  * if you want to upgrade -> [upgrade guide](../upgrade.md)
 
-A quick version check is also available via:
+## `specify version` -- Version Information
 
 ```bash
-specify --version
-specify -V
+specify version [OPTIONS]
 ```
+
+* displays the
+  * Spec Kit CLI version
+  * Python version
+  * platform
+  * architecture
+
+* `[OPTIONS]`
+  * `--features`
+    * 's return:
+      * local CLI capabilities
+  * `--json`
+    * use cases
+      * scripts
+      * coding agents
+
+* ALTERNATIVES
+  * `specify --version` OR `specify -v`

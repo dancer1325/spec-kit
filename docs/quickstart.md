@@ -1,9 +1,7 @@
 # Quick Start Guide
 
-## 7-Step Process
-
 * **Context Awareness**
-  * Spec Kit commands 
+  * TODO: Spec Kit commands 
     * placed | .yourChosenAI/commands/
     * AUTOMATICALLY detect the active feature -- based on -- your current Git branch (e.g., `001-feature-name`)
       * if you want to switch BETWEEN DIFFERENT specifications -> switch Git branches
@@ -19,42 +17,39 @@
   - **Let the AI agent handle** the implementation details
   - [SDD](../spec-driven.md)
 
-TODO: After installing Spec Kit and defining your project constitution, quick experiments can use the lean feature path: `/speckit.specify` -> `/speckit.plan` -> `/speckit.tasks` -> `/speckit.implement`. For production features or any work with meaningful ambiguity, treat `/speckit.clarify`, `/speckit.checklist`, and `/speckit.analyze` as regular quality gates:
+* ⭐️types of paths⭐️
+  * 💡short💡
+    * step process
+      * install Specify CLI
+      * `/speckit.specify`
+      * `/speckit.plan`
+      * `/speckit.tasks`
+      * `/speckit.implement`
+      * `/speckit.converge`
+    * use case
+      * small features
+  * 💡full💡 
+    * step process
+      * install Specify CLI
+      * `/speckit.constitution`
+      * `/speckit.specify`
+      * `/speckit.clarify`
+      * `/speckit.plan`
+      * `/speckit.checklist`
+      * `/speckit.tasks`
+      * `/speckit.analyze`
+      * `/speckit.implement`
+      * `/speckit.converge`
+    * use case
+      * production features
 
-```text
-/speckit.constitution -> /speckit.specify -> /speckit.clarify -> /speckit.checklist -> /speckit.plan -> /speckit.tasks -> /speckit.analyze -> /speckit.implement
-```
-
-Use `/speckit.clarify` to reduce requirement ambiguity before planning, `/speckit.checklist` to validate requirements quality before planning, and `/speckit.analyze` to check spec/plan/task consistency before implementation starts. You can repeat `/speckit.analyze` after implementation as an extra review, but keep the first analysis before `/speckit.implement` so gaps are caught while the plan and tasks can still be adjusted.
-
+## Step Processes
 
 ### 0. install Specify CLI
 
-#### Option 1: Persistent Installation
-
-* 👀recommended👀
 * steps
-  * install [uv](https://docs.astral.sh/uv/getting-started/installation/)
-    * `curl -LsSf https://astral.sh/uv/install.sh | sh`
-    * `echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc`
-  * `uv tool install specify-cli --from git+https://github.com/github/spec-kit.git`
-  * `specify version`
-    * check that it's installed
-  * [initialize the project](installation.md#initialize-a-new-project)
-  * `specify check`
-    * check the installed tools
-
-* pros
-  - Tool stays installed & available | PATH
-  - NO need to create shell aliases
-  - Better tool management: `uv tool list`, `uv tool upgrade`, `uv tool uninstall`
-  - Cleaner shell configuration
-
-#### Option 2: 1-time Usage
-
-* steps
-  * `uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME>`
-    * follow [initialize the project](installation.md#initialize-a-new-project)
+  * [install prerequirements + Github speckit](installation.md#how-to-install)
+  * [initialize Github Speckit](installation.md#how-to-initialize-github-speckit--project)
 
 ### 1. establish project principles
 
@@ -142,7 +137,7 @@ Use `/speckit.clarify` to reduce requirement ambiguity before planning, `/specki
 
 ## Notes
 
-* [complete methodology](/spec-driven.md)
+* [complete methodology](../spec-driven.md)
 * _Examples:_
   * [of Spec's steps](../templates)
   * [firstProject](https://github.com/dancer1325/spec-kit-firstExample)
