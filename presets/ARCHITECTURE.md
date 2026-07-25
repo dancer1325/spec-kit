@@ -120,7 +120,7 @@ The `CommandRegistrar` renders commands differently per agent:
 
 | Agent | Format | Extension | Arg placeholder |
 |-------|--------|-----------|-----------------|
-| Claude, Cursor, opencode, Windsurf, etc. | Markdown | `.md` | `$ARGUMENTS` |
+| Claude, Kilo Code, opencode, etc. | Markdown | `.md` | `$ARGUMENTS` |
 | Copilot | Markdown | `.agent.md` + `.prompt.md` | `$ARGUMENTS` |
 | Gemini, Qwen, Tabnine | TOML | `.toml` | `{{args}}` |
 
@@ -152,6 +152,36 @@ flowchart TD
 
 Catalogs are fetched with a 1-hour cache (per-URL, SHA256-hashed cache files)
 * Each catalog entry has a `priority` (for merge ordering) and `install_allowed` flag.
+
+## Repository Layout
+
+```
+presets/
+├── ARCHITECTURE.md                         # This file
+├── PUBLISHING.md                           # Guide for submitting presets to the catalog
+├── README.md                               # User guide
+├── catalog.json                            # Official preset catalog
+├── catalog.community.json                  # Community preset catalog
+├── scaffold/                               # Scaffold for creating new presets
+│   ├── preset.yml                          # Example manifest
+│   ├── README.md                           # Guide for customizing the scaffold
+│   ├── commands/
+│   │   ├── speckit.specify.md              # Core command override example
+│   │   └── speckit.myext.myextcmd.md       # Extension command override example
+│   └── templates/
+│       ├── spec-template.md                # Core template override example
+│       └── myext-template.md               # Extension template override example
+└── self-test/                              # Self-test preset (overrides all core templates)
+    ├── preset.yml
+    ├── commands/
+    │   └── speckit.specify.md
+    └── templates/
+        ├── spec-template.md
+        ├── plan-template.md
+        ├── tasks-template.md
+        ├── checklist-template.md
+        └── constitution-template.md
+```
 
 ## Module Structure
 

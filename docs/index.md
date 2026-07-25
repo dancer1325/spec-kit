@@ -32,18 +32,21 @@ Including entirely different SDD processes:
 - **Product Forge** — product-management-oriented SDD
 - **FX→.NET** — end-to-end .NET Framework migration across 7 phases
 - **MAQA** — multi-agent orchestration with quality assurance gates
+- **Fiction Book Writing** — novels and long-form fiction, from story bible to submission
 
-<a href="community/presets.md" class="pillar-link">Browse community presets →</a>
+<a href="reference/presets.md" class="pillar-link">Presets →</a>&nbsp;&nbsp;
+<a href="reference/extensions.md" class="pillar-link">Extensions →</a>&nbsp;&nbsp;
+<a href="reference/workflows.md" class="pillar-link">Workflows →</a>&nbsp;&nbsp;
+<a href="reference/bundles.md" class="pillar-link">Bundles →</a>
 
 
 ### Integrate into your organization
 
-Works offline, behind firewalls, and on **Windows, macOS, and Linux**
-* Host your own extension and preset catalogs so your organization controls what gets installed.
+Works offline, behind firewalls, and on **Windows, macOS, and Linux**. Host your own catalogs to curate what integrations, extensions, presets, workflows, and bundles your organization discovers and recommends.
 
 Community extensions like CI Guard and Architecture Guard add compliance gates and governance that fit the way your team already works.
 
-<a href="installation.md" class="pillar-link">Installation guide →</a>&nbsp;&nbsp;
-<a href="reference/extensions.md" class="pillar-link">Extensions reference →</a>
+<a href="install/air-gapped.md" class="pillar-link">Enterprise / Air-Gapped →</a>&nbsp;&nbsp;
+<a href="reference/overview.md" class="pillar-link">Reference →</a>
 
 

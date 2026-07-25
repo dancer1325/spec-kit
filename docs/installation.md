@@ -1,8 +1,10 @@
 # Installation Guide
 
-* [github/spec-kit](https://github.com/github/spec-kit)
-  * ⚠️ONLY OFFICIAL maintained repository⚠️
-    * ❌NOT packages | PyPI❌
+* OFFICIAL distribution channels
+  * [github/spec-kit](https://github.com/github/spec-kit)
+    * ⚠️ONLY OFFICIAL maintained repository⚠️
+      * ❌NOT packages | PyPI❌
+  * TODO: [`specify-cli`](https://pypi.org/project/specify-cli/) package on [PyPI](https://pypi.org/project/specify-cli/)
 
 ## ⚠️Prerequisites⚠️
 

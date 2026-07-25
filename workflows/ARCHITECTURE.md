@@ -110,18 +110,19 @@ TODO:
 
 * subpackage | [here](/src/specify_cli/workflows/steps/)
 
-| Type Key   | Class         | Purpose                                                        | Returns `next_steps`?  |
-|------------|---------------|----------------------------------------------------------------|------------------------|
-| `command`  | `CommandStep` | Invoke an INSTALLED Spec Kit command -- via -- integration CLI | No                     |
-| `prompt`   | `PromptStep`  | Send an arbitrary inline prompt -- to -- integration CLI       | No                     |
-| `shell`    | `ShellStep`   | Run a shell command, capture output                            | No                     |
-| `gate`     | `GateStep`    | Interactive human review/approval                              | No (pauses in CI)      |
-| `if`       | `IfThenStep`  | Conditional branching (then/else)                              | Yes                    |
-| `switch`   | `SwitchStep`  | Multi-branch dispatch on expression                            | Yes                    |
-| `while`    | `WhileStep`   | Loop while condition is truthy                                 | Yes (if true)          |
-| `do-while` | `DoWhileStep` | Loop, always runs body at least once                           | Yes (always)           |
-| `fan-out`  | `FanOutStep`  | Dispatch per item over a collection                            | No (engine expands)    |
-| `fan-in`   | `FanInStep`   | Aggregate results from fan-out                                 | No                     |
+| Type Key | Class | Purpose | Returns `next_steps`? |
+|----------|-------|---------|-----------------------|
+| `command` | `CommandStep` | Invoke an installed Spec Kit command via integration CLI | No |
+| `prompt` | `PromptStep` | Send an arbitrary inline prompt to integration CLI | No |
+| `shell` | `ShellStep` | Run a shell command, capture output | No |
+| `init` | `InitStep` | Bootstrap a project (equivalent to `specify init`) | No |
+| `gate` | `GateStep` | Interactive human review/approval | No (pauses in CI) |
+| `if` | `IfThenStep` | Conditional branching (then/else) | Yes |
+| `switch` | `SwitchStep` | Multi-branch dispatch on expression | Yes |
+| `while` | `WhileStep` | Loop while condition is truthy | Yes (if true) |
+| `do-while` | `DoWhileStep` | Loop, always runs body at least once | Yes (always) |
+| `fan-out` | `FanOutStep` | Dispatch per item over a collection | No (engine expands) |
+| `fan-in` | `FanInStep` | Aggregate results from fan-out | No |
 
 ## Step Registry
 
@@ -152,6 +153,7 @@ Workflow definitions use Jinja2-like `{{ expression }}` syntax for dynamic value
 | Filter: `join` | `{{ list \| join(', ') }}` | Join list elements |
 | Filter: `contains` | `{{ text \| contains('sub') }}` | Substring/membership check |
 | Filter: `map` | `{{ list \| map('attr') }}` | Extract attribute from each item |
+| Filter: `from_json` | `{{ steps.emit.output.stdout \| from_json }}` | Parse a JSON string into a typed value (raises on invalid JSON) |
 
 **Single expressions** (`{{ expr }}` only) return typed values
 * **Mixed templates** (`"text {{ expr }} more"`) return interpolated strings.
@@ -239,6 +241,7 @@ src/specify_cli/
 │   └── steps/
 │       ├── command/         # Dispatch command to AI integration
 │       ├── shell/           # Run shell command
+│       ├── init/            # Bootstrap a project (specify init)
 │       ├── gate/            # Human review checkpoint
 │       ├── if_then/         # Conditional branching
 │       ├── prompt/          # Arbitrary inline prompts
