@@ -10,6 +10,8 @@ TODO:
 ### CLI required
 * [here](https://github.com/dancer1325/spec-kit-firstExample)
   * `specify integration list`
+  * `specify integration install kiro-cli`
+  * `specify integration upgrade`
 ### MULTI-install safe
 * [here](https://github.com/dancer1325/spec-kit-firstExample)
   * `specify integration list`

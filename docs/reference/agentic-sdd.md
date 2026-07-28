@@ -1,115 +1,209 @@
-# Agentic SDD
+# Agentic SDD -- `/speckit.*` -- 
 
-The `/speckit.*` slash commands drive the core Spec-Driven Development (SDD) process — an **agentic process** your coding agent runs step by step. For a guided, end-to-end run see the [Quick Start Guide](../quickstart.md); this page is the detailed reference for each command — including arguments, output, and how they interact. For the philosophy behind the process, see [What is SDD?](../concepts/sdd.md). For bug triage, see [Agentic Bug Fix](agentic-bugfix.md).
+* ⚠️requirements⚠️
+  * [initialize SpecKit](../installation.md#how-to-initialize-github-speckit--project)
 
-The commands are designed to run in order, but only `/speckit.specify` is strictly required before `/speckit.plan`. The clarify, checklist, and analyze commands are quality gates you add for anything with meaningful ambiguity.
+* agentic
+  * == EACH command is run | your AI coding agent
+  * [bug fix](agentic-bugfix.md)
 
-> [!NOTE]
-> Commands are written in `/speckit.*` form throughout this page. The exact invocation depends on your agent — some skills-based agents use `$speckit-*` (e.g. Codex, ZCode) or `/skill:speckit-*` (e.g. Kimi). Substitute the form your agent exposes.
+* 💡types of invocation💡
+  * 👀-- depend on -- your agent👀
+    * `/speckit.*`
+    * skills-based agents
+      * `$speckit-*`
+        * _Example:_ Codex, ZCode
+      * `/skill:speckit-*` 
+        * _Example:_ Kimi
 
-```text
-/speckit.constitution -> /speckit.specify -> /speckit.clarify -> /speckit.plan -> /speckit.checklist -> /speckit.tasks -> /speckit.analyze -> /speckit.implement -> /speckit.converge
-```
+* placed 
+  * | ".<yourChosenAI>/commands/"
+  * | ".<yourChosenAI>/prompts/"
+  * if you use skills-based agents,
+    * | ".<yourChosenAI>/skills/"
 
-## `/speckit.constitution`
+* recommendations
+  * ⭐️[FULL step process](../quickstart.md)⭐️
 
-Creates or updates the project **constitution** — the guiding principles that every later phase is evaluated against — and keeps dependent templates in sync. Run it once up front and update it whenever your principles change. Pass the principles as arguments.
+    ```text
+    /speckit.constitution -> /speckit.specify -> /speckit.clarify -> /speckit.plan -> /speckit.checklist -> /speckit.tasks -> /speckit.analyze -> /speckit.implement -> /speckit.converge
+    ```
+  * [E2E guide](../quickstart.md)
 
-```text
-/speckit.constitution This project follows a "Library-First" approach. All features must be implemented as standalone libraries first. We use TDD strictly. We prefer functional programming patterns.
-```
+* are **context awareness**
+  * == AUTOMATICALLY detect the active feature -- based on --  
+    * ".specify/feature.json", OR 
+      * if you want to replace it by anotherFile -> set `SPECIFY_FEATURE_DIRECTORY` environment variable
+    * branchName
+      * ⚠️requirements⚠️
+        * install the Git extension
+        * you have `git checkout -b anotherBranchRelatedToSpec` -> identify & update ".specify/feature.json" 
+          * _Example:_ `001-feature-name`
 
-## `/speckit.specify`
+## `/speckit.constitution <ARGUMENT>`
 
-Creates or updates the feature **specification** from a natural-language description. Focus on the **what** and **why** — the user-facing behavior and goals — not the tech stack, which belongs in `/speckit.plan`.
+* responsible for
+  * create OR update the [".specify/memory/constitution.md"](../concepts/sdd.md)
+  * sync dependent templates
+    * _Example:_ "CLAUDE.md", "GEMINI.md"
+      * | kiro-cli, NOT exist
+* 's arguments
+  * project principles & guidelines
+* uses
+  * FIRST one
+  * | change your principles
 
-```text
-/speckit.specify Build an application that helps me organize photos into albums grouped by date, re-orderable by drag-and-drop on the main page, with a tile preview inside each album.
-```
+## `/speckit.specify <ARGUMENT>`
 
-## `/speckit.clarify`
+* responsible for
+  * create OR updates the feature "specification" ("specs/") -- from a -- natural-language description
+    * ⚠️if update == NEW feature -> create ANOTHER spec⚠️
+* 's argument
+  * what | user-facing perspective
+    * == requirements & user stories
+* ⚠️out of the scope
+  * tech stack⚠️
 
-Asks up to five targeted questions about underspecified areas of the current spec and encodes your answers back into `spec.md`. Run it as many times as needed before planning, each time tackling a different area. Optionally pass a focus area as an argument.
+## `/speckit.clarify <ARGUMENT>`
 
-```text
-/speckit.clarify Focus on the task card behavior: status changes, comment limits, and who can be assigned.
-```
+* == quality gate /
+  * you can run >=1 time
+* responsible for
+  * asking your for <= 5 targeted questions -- about -- current spec's underspecified areas /
+    * your answers are added | "specs/**/spec.md"
+* 's arguments
+  * focus area
+    * allows: choose the spec 
+    * OPTIONAL
+      * == if you do NOT specify it -> chosen -- based on -- active spec
+* use cases
+  * BEFORE `/speckit.plan`
+  * AFTER `/speckit.analyze`
+    * ALTERNATIVE to
+      * `/speckit.specify`
 
-Clarifying before planning keeps you from designing on top of ambiguity. If `/speckit.analyze` later surfaces requirement gaps, come back and run `/speckit.clarify` (or `/speckit.specify`) again.
+## `/speckit.plan <ARGUMENT>`
 
-## `/speckit.plan`
+* responsible for
+  * generate -- , from the spec, -- 
+    * "specs/<feature>/plan.md" 
+      * == implementation detail
+    * "specs/<feature>/research.md"
+* 's arguments
+  * tech stack
+  * architecture
+  * technical constraints
+* if AI coding agent gets stuck -> | AI assistant chat, `/speckit.analyze`
 
-Runs the planning process to generate design artifacts from the spec. This is where implementation detail belongs — provide your tech stack, architecture, and technical constraints as arguments.
+## `/speckit.checklist <ARGUMENT>`
 
-```text
-/speckit.plan Use .NET Aspire with Postgres. The frontend is Blazor Server with drag-and-drop boards and real-time updates. Expose REST APIs for projects, tasks, and notifications.
-```
+* == quality checklist -- for -- the feature 
+  * == checks 
+    * whether the spec itself is: complete + clear + unambiguous + consistent
+  * ⚠️if there are gaps ->
+    * `/speckit.clarify` OR
+    * `/speckit.specify`⚠️
+* 's arguments
+  * OPTIONAL
+    * if NO passed -> broad pass
 
-## `/speckit.checklist`
+      ```text
+      /speckit.checklist
+      ```
+    * if you specify it -> specify a focus area
 
-Generates a quality checklist for the feature — think of it as **"unit tests for your requirements."** Rather than testing code, it checks whether the spec itself is complete, clear, unambiguous, and consistent (for example: "Are the drag-and-drop rules defined for every column?", "Is behavior specified for a deleted assigned user?").
-
-Run it with no arguments for a broad pass, or pass a focus area to target one aspect:
-
-```text
-/speckit.checklist
-```
-
-```text
-/speckit.checklist Focus on the Kanban board interactions and comment permissions.
-```
-
-Review the generated checklist. If it surfaces gaps, loop back to `/speckit.clarify` or `/speckit.specify` to tighten the spec before breaking the work down.
+      ```text
+      /speckit.checklist Focus on the Kanban board interactions and comment permissions.
+      ```
 
 ## `/speckit.tasks`
 
-Generates an actionable, dependency-ordered `tasks.md` from the design artifacts. Tasks are organized into phases: **Setup**, **Foundational** (blocking prerequisites), then **one phase per user story** in priority order, and a final **Polish** phase for cross-cutting concerns. Tests are generated within a user story's phase when requested rather than as a separate phase, and tasks are marked for parallel execution where possible.
-
-```text
-/speckit.tasks
-```
+* generates -- , from the design artifacts, -- "specs/*/tasks.md" /
+  * actionable
+    * == -- for -- implementation
+      * EVEN specifying the file path | implementation should happen
+  * dependency-ordered
+    * _Example:_ create the model, create the service, create the endpoint ...
+  * priority-ordered (P1, P2,...)
+  * `[P]`
+    * == it can be executed in PARALLEL
+  * organized into phases
+    * setup
+    * foundational
+      * == block US
+    * \>=1 user story
+      * if you have specified TDD -> tests / user story 
+    * polish
+      * uses
+        * cross-cutting concerns 
+  * **Checkpoint validation / EACH user story phase**
+  * if it's POSSIBLE -> parallel execution
 
 ## `/speckit.analyze`
 
-Performs a **read-only** cross-artifact consistency and quality analysis across `spec.md`, `plan.md`, and `tasks.md`, reporting conflicts, gaps, and ambiguities (for example a task with no matching requirement, or a plan choice that contradicts the spec). It never edits files — it produces a report and can optionally suggest remediations for you to approve.
-
-```text
-/speckit.analyze
-```
-
-Run it before implementing, while the artifacts can still be adjusted cheaply. If it surfaces issues, **return to the earlier step that owns them** and fix them at the source — `/speckit.specify` or `/speckit.clarify` for requirement problems, `/speckit.plan` for design problems, `/speckit.tasks` to regenerate the task list — then re-run `/speckit.analyze` until it comes back clean. You can also run `/speckit.analyze` again after implementation as an extra review.
+* == consistent & quality analysis / 
+  * read-only
+    * ❌NEVER edits files❌
+  * cross-artifact ("spec.md", "plan.md", "tasks.md")
+  * report DIFFERENT categories: consistency + ambiguities + underspecification + coverage gaps + duplication + constitution
+    * if there are issues
+      * requirement problems -> run `/speckit.specify` OR `/speckit.clarify`
+      * design problems -> run `/speckit.plan`
+      * & you want to regenerate the task list -> run `/speckit.tasks`
+    * if you have fixed ALL the issues -> `/speckit.analyze`
+* use cases
+  * BEFORE `/speckit.implement`
+  * AFTER `/speckit.implement`
+    * Reason:🧠extra review🧠
 
 ## `/speckit.implement`
 
-Executes the tasks in `tasks.md`, running each phase in dependency order and respecting parallel markers.
+* execute the tasks / specified | "tasks.md" /
+  * respect 
+    * dependency order
+    * parallel markers
+  * -- based on the -- feature
+    * if it's small feature -> run it 1!
 
-For a small feature, run it once to build everything:
+      ```text
+      /speckit.implement
+      ```
 
-```text
-/speckit.implement
-```
+    * if it's a large feature -> run in task' phases
 
-For a large feature, work in stages to avoid overwhelming the agent's context — scope each run with an argument, validate the result, then continue:
+      ```bash
+      /speckit.implement Implement only the Setup and Foundational phases: ...
+      # /speckit.implement Implement only the Setup and Foundational phases: project scaffolding and the project/task data model with basic CRUD. Stop before the user-story features.
+      ```
 
-```text
-/speckit.implement Implement only the Setup and Foundational phases: project scaffolding and the project/task data model with basic CRUD. Stop before the user-story features.
-```
+      ```bash
+      /speckit.implement Now implement the ** user story: ...
+      # /speckit.implement Now implement the Kanban board user story: drag-and-drop between columns.
+      ```
 
-```text
-/speckit.implement Now implement the Kanban board user story: drag-and-drop between columns.
-```
-
-Verify each stage works before moving to the next.
+* BEFORE moving to the next,
+  * verify EACH stage works 
 
 ## `/speckit.converge`
 
-Assesses the codebase against the feature's spec, plan, and tasks to confirm nothing was missed. It is **append-only**: it never edits or deletes code, and its only possible write is adding tasks to `tasks.md`. Run it only after `/speckit.implement` has run on the current `tasks.md`.
-
-```text
-/speckit.converge
-```
-
-It first prints a severity-graded findings summary, then resolves to one of two outcomes:
-
-- **Converged** — no gaps found. `tasks.md` is left byte-for-byte unchanged and you'll see a clean result like `✅ Converged — the implementation satisfies the spec, plan, and tasks.` You're done; proceed to review or open a PR.
-- **Tasks appended** — gaps found. Converge appends them as new tasks under a Convergence section in `tasks.md` and tells you how many. Run `/speckit.implement` again to complete them, then `/speckit.converge` once more. Each pass finds fewer items; repeat until it reports converged.
+* responsible for
+  * assess the codebase vs feature's spec + plan + tasks
+    * == confirm NOTHING was missed
+* use cases
+  * AFTER has run`/speckit.implement` | CURRENT "tasks.md"
+* 's outcome
+  * print a severity-graded findings summary
+  * POSSIBLE ones
+    * **Converged** 
+      * == ❌NO find gaps❌
+        * print: `✅ Converged — the implementation satisfies the spec, plan, and tasks.` 
+      * "tasks.md" has NOT changed
+      * NEXT steps
+        * review OR open a PR
+    * **Tasks appended** 
+      * == find gaps
+      * add NEW tasks | "tasks.md"'s convergence section  
+        * ❌!= edit OR delete code❌
+      * NEXT steps
+        * `/speckit.implement` to complete them
+        * `/speckit.converge` again

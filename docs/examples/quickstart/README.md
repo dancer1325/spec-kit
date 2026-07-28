@@ -3,3 +3,9 @@
 
 # Second example
 * [spec-kit-secondExample](https://github.com/dancer1325/spec-kit-secondExample)
+
+# types of paths
+## short
+TODO:
+## full
+TODO:

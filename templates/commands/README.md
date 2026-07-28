@@ -1,4 +1,6 @@
 * goal
-  * slash command template
+  * `/speckit.*` template
     * == prompt OR instructions / agent executes
-      * pasted | "project/.<AGENT_NAME>/commands"
+    * placed | 
+      * "project/.<AGENT_NAME>/commands", OR
+      * "project/.<AGENT_NAME>/prompts"

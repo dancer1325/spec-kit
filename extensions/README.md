@@ -9,33 +9,37 @@
 ### [built-in catalog](catalog.json) 
 
 * == default catalog of extensions /
-  * by default, empty 
+  * by default, 
+    * empty 
   * `specify extension <COMMAND>` use it
+* `SPECKIT_CATALOG_URL`
+  * == environment variable /
+    * override the upstream default
+  * steps to make it effective
 
-* TODO: 
-- **Org Catalog**: Point `SPECKIT_CATALOG_URL` at your organization's fork or hosted catalog JSON to use it instead of the upstream default
-- **Customization**: Copy entries from the community catalog into your org catalog, or add your own extensions directly
+    ```bash
+    # 1. override the default upstream catalog -- with -- your organization's catalog
+    export SPECKIT_CATALOG_URL="https://your-org.com/spec-kit/catalog.json"
+    
+    # 2. NOW, it uses your organization's catalog
+    specify extension search
+    ```
 
-**Example override:**
-```bash
-# Override the default upstream catalog with your organization's catalog
-export SPECKIT_CATALOG_URL="https://your-org.com/spec-kit/catalog.json"
-specify extension search  # Now uses your organization's catalog instead of the upstream default
-```
+* TODO: ways to customize
+  * | community catalog, copy entries -- into -- your org catalog, OR
+  * add DIRECTLY your OWN extensions
 
 ### [Community Catalog](catalog.community.json)
 
-> [!NOTE]
-> Community extensions are independently created and maintained by their respective authors
-> Maintainers only verify that catalog entries are complete and correctly formatted — they do **not review, audit, endorse, or support the extension code itself**
-> Review extension source code before installation and use at your own discretion.
+* Community extensions
+  * INDEPENDENTLY created & maintained -- by -- their respective authors
+    * == maintainers
+      * ONLY verify that catalog entries are complete & correctly formatted
+      * do NOT review, audit, endorse, or support the extension code
+    * -> use under your risks
+  * [how to submit](#submission-process)
 
-- **Purpose**: Browse available community-contributed extensions
-- **Status**: Active - contains extensions submitted by the community
-- **Location**: `extensions/catalog.community.json`
-- **Usage**: Reference catalog for discovering available extensions
-- **Submission**: Open to community contributions via [issue template](https://github.com/github/spec-kit/issues/new?template=extension_submission.yml)
-
+TODO: check
 **How It Works:**
 
 ## Making Extensions Available
