@@ -181,7 +181,11 @@ TODO:
 TODO: 
 
 # `/speckit.implement`
-TODO:
+* | [here](example)
+  * `kiro-cli`
+    * `/speckit.implement`
+      * ❌NOT possible❌
+        * TODO: move to a dedicated repo
 ## executes tasks / specified | "tasks.md"
 TODO:
 ### respect
