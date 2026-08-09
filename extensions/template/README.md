@@ -1,6 +1,7 @@
 # Extension Template
 
-Starter template for creating a Spec Kit extension.
+* goal
+  * starter template -- for -- creating a Spec Kit extension
 
 ## Quick Start
 

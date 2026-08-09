@@ -4,6 +4,15 @@
   * how to publish your OWN extension | Spec Kit extension catalog?
     * -> discoverable -- by -- `specify extension search`
 
+* TODO: how to refactor this document to express the submission checklist
+
+- ✅ Valid `extension.yml` manifest
+- ✅ Complete README with installation and usage instructions
+- ✅ LICENSE file included
+- ✅ GitHub release created with semantic version (e.g., v1.0.0)
+- ✅ Extension tested on a real project
+- ✅ All commands working as documented
+
 ## Prerequisites
 
 Before publishing an extension, ensure you have:

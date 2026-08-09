@@ -1286,7 +1286,7 @@ $ specify extension disable jira
 To re-enable: specify extension enable jira
 ```
 
-#### `specify extension set-priority NAME PRIORITY`
+#### `specify extension set-priority <NAME> <PRIORITY>`
 
 Change the resolution priority of an installed extension.
 
@@ -1304,12 +1304,9 @@ Lower priority = higher precedence in template resolution
 - Default priority is 10
 - Must be a positive integer (1 or higher)
 
-**Use Cases:**
-
-- Ensure a critical extension's templates take precedence
-- Override default resolution order when multiple extensions provide similar templates
-
----
+* **Use Cases:**
+  * Ensure a critical extension's templates take precedence
+  * if extension1's name == extension2's name -> extension / the lowest priority takes precedence
 
 ## Compatibility & Versioning
 

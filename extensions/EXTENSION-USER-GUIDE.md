@@ -1,40 +1,6 @@
 # Extension User Guide
 
-Complete guide for using Spec Kit extensions to enhance your workflow.
-
-## Table of Contents
-
-1. [Introduction](#introduction)
-2. [Getting Started](#getting-started)
-3. [Finding Extensions](#finding-extensions)
-4. [Installing Extensions](#installing-extensions)
-5. [Using Extensions](#using-extensions)
-6. [Managing Extensions](#managing-extensions)
-7. [Configuration](#configuration)
-8. [Troubleshooting](#troubleshooting)
-9. [Best Practices](#best-practices)
-
----
-
-## Introduction
-
-### What are Extensions?
-
-Extensions are modular packages that add new commands and functionality to Spec Kit without bloating the core framework. They allow you to:
-
-- **Integrate** with external tools (Jira, Linear, GitHub, etc.)
-- **Automate** repetitive tasks with hooks
-- **Customize** workflows for your team
-- **Share** solutions across projects
-
-### Why Use Extensions?
-
-- **Clean Core**: Keeps spec-kit lightweight and focused
-- **Optional Features**: Only install what you need
-- **Community Driven**: Anyone can create and share extensions
-- **Version Controlled**: Extensions are versioned independently
-
----
+* how to use Spec Kit extensions -- to -- enhance your workflow
 
 ## Getting Started
 
@@ -74,9 +40,9 @@ vim .specify/extensions/jira/jira-config.yml
 
 ---
 
-## Finding Extensions
+## `specify extension search` -- Finding Extensions --
 
-`specify extension search` searches **all active catalogs** simultaneously, including the community catalog by default. Results are annotated with their source catalog and install status.
+* searches SIMULTANEOUSLY ALL ACTIVE catalogs
 
 ### Browse All Extensions
 
@@ -84,7 +50,7 @@ vim .specify/extensions/jira/jira-config.yml
 specify extension search
 ```
 
-Shows all extensions across all active catalogs (default and community by default).
+* shows ALL extensions | ALL ACTIVE catalogs (default and community by default)
 
 ### Search by Keyword
 
@@ -96,7 +62,7 @@ specify extension search jira
 specify extension search issue
 ```
 
-### Filter by Tag
+### `--tag <TAG_TO_FILTER>`
 
 ```bash
 # Find all issue-tracking extensions
@@ -106,39 +72,44 @@ specify extension search --tag issue-tracking
 specify extension search --tag atlassian
 ```
 
-### Filter by Author
+### `--tag <AUTHOR_TO_FILTER>`
 
 ```bash
 # Extensions by Stats Perform
 specify extension search --author "Stats Perform"
 ```
 
-### Show Verified Only
+### `--verified`
+
+* ONLY show verified extensions
 
 ```bash
 # Only show verified extensions
 specify extension search --verified
 ```
 
-### Get Extension Details
+## `specify extension info <EXTENSION_NAME>` -- Get Extension Details
 
 ```bash
 # Detailed information
 specify extension info jira
 ```
 
-Shows:
-
-- Description
-- Requirements
-- Commands provided
-- Hooks available
-- Links (documentation, repository, changelog)
-- Installation status
-
----
+* display
+  - Description
+  - Requirements
+  - Commands provided
+  - Hooks available
+  - Links (documentation, repository, changelog)
+  - Installation status
 
 ## Installing Extensions
+
+| Option          | Description                                                               |
+| --------------- |---------------------------------------------------------------------------|
+| `--dev`         | Install -- from a -- local directory <br/> use cases: development         |
+| `--from <url>`  | Install -- from a -- custom URL (!= catalog)                              |
+| `--priority <N>`| Resolution priority <br/> by default, 10 <br/> lower == HIGHER precedence |
 
 ### Install from Catalog
 
@@ -189,7 +160,19 @@ Provided commands:
 
 ### Automatic Agent Skill Registration
 
-If your project uses a skills-based integration (e.g., `--integration claude`, `--integration codex`) or was initialized with `--integration-options="--skills"`, extension commands are **automatically registered as agent skills** during installation. This ensures that extensions are discoverable by agents that use the [agentskills.io](https://agentskills.io) skill specification.
+* use case
+  * project
+    * uses a skills-based integration, OR
+      * _Examples:_ `--integration claude`, `--integration codex`
+    * was initialized -- with -- `--integration-options="--skills"` 
+* allows
+  * 👀| installation,
+    * extension commands are AUTOMATICALLY registered -- as -- agent skills👀
+  * | remove the extension,
+    * its corresponding skills are also cleaned up AUTOMATICALLY
+      * ⚠️EXCEPT TO: skill / PREVIOUSLY was MANUALLY customized⚠️
+* -> extensions
+  * are discoverable -- by -- agents / use the [agentskills.io skill specification](https://agentskills.io) 
 
 ```text
 ✓ Extension installed successfully!
@@ -199,10 +182,6 @@ Jira Integration (v1.0.0)
 
 ✓ 3 agent skill(s) auto-registered
 ```
-
-When an extension is removed, its corresponding skills are also cleaned up automatically. Pre-existing skills that were manually customized are never overwritten.
-
----
 
 ## Using Extensions
 
@@ -264,7 +243,7 @@ You can then choose to run the hook or skip it.
 
 ## Managing Extensions
 
-### List Installed Extensions
+### `specify extension list` -- List Installed Extensions
 
 ```bash
 specify extension list
@@ -280,13 +259,19 @@ Installed Extensions:
      Commands: 3 | Hooks: 1 | Status: Enabled
 ```
 
-### Update Extensions
+
+| Option        | Description                                        |
+| ------------- | -------------------------------------------------- |
+| `--available` | Show available (uninstalled) extensions            |
+| `--all`       | Show both installed and available extensions       |
+
+### `specify extension update` -- update extensions
 
 ```bash
-# Check for updates (all extensions)
+# update ALL extensions
 specify extension update
 
-# Update specific extension
+# update SPECIFIC extension
 specify extension update jira
 ```
 
@@ -302,10 +287,14 @@ Updates available:
 Update these extensions? [y/N]:
 ```
 
-### Disable Extension Temporarily
+### `specify extension disable <EXTENSION_NAME>` -- Disable Extension Temporarily
+
+* -> ❌commands are NOT AVAILABLE❌
 
 ```bash
-# Disable without removing
+# disable
+#   != removing
+#     == NO remove it
 specify extension disable jira
 
 ✓ Extension 'jira' disabled
@@ -314,7 +303,7 @@ Commands will no longer be available. Hooks will not execute.
 To re-enable: specify extension enable jira
 ```
 
-### Re-enable Extension
+### `specify extension enable <EXTENSION_NAME>` -- Re-enable Extension
 
 ```bash
 specify extension enable jira
@@ -339,9 +328,7 @@ specify extension remove jira --force
 
 ## Configuration
 
-### Configuration Files
-
-Extensions can have multiple configuration files:
+### extension's configuration files
 
 ```text
 .specify/extensions/jira/
@@ -350,14 +337,13 @@ Extensions can have multiple configuration files:
 └── jira-config.template.yml  # Template (reference)
 ```
 
-### Configuration Layers
+### configuration layers
 
-Configuration is merged in this order (highest priority last):
-
-1. **Extension defaults** (from `extension.yml`)
-2. **Project config** (`jira-config.yml`)
-3. **Local overrides** (`jira-config.local.yml`)
-4. **Environment variables** (`SPECKIT_JIRA_*`)
+* lower -- to -- higher priority
+  1. **Extension defaults** (from `extension.yml`)
+  2. **Project config** (`jira-config.yml`)
+  3. **Local overrides** (`jira-config.local.yml`)
+  4. **Environment variables** (`SPECKIT_JIRA_*`)
 
 ### Example: Jira Configuration
 
@@ -454,14 +440,24 @@ The token is attached automatically to requests targeting GitHub domains. Non-Gi
 
 ## Extension Catalogs
 
-Spec Kit uses a **catalog stack** — an ordered list of catalogs searched simultaneously. By default, two catalogs are active:
+Spec Kit uses a **catalog stack** — an ordered list of catalogs searched simultaneously
+By default, two catalogs are active:
 
 | Priority | Catalog | Install Allowed | Purpose |
 |----------|---------|-----------------|---------|
 | 1 | `catalog.json` (default) | ✅ Yes | Curated extensions available for installation |
 | 2 | `catalog.community.json` (community) | ❌ No (discovery only) | Browse community extensions |
 
-### Listing Active Catalogs
+* resolution order priority
+  1. `SPECKIT_CATALOG_URL` environment variable
+  2. ".specify/extension-catalogs.yml"
+     * project config
+  3. "~/.specify/extension-catalogs.yml"
+     * User config 
+  4. official catalog + community catalog
+     * built-in defaults
+
+### `specify extension catalog list` -- Listing Active Catalogs
 
 ```bash
 specify extension catalog list
@@ -487,7 +483,15 @@ specify extension catalog --help
 ╰──────────────────────────────────────────────────────────────────────────────────╯
 ```
 
-### Adding a Catalog (Project-scoped)
+### `specify extension catalog add <url>` -- Adding a Catalog (Project-scoped)
+
+
+| Option                                     | Description                                            |
+|--------------------------------------------|--------------------------------------------------------|
+| `--name <name>`                            | Required. Unique name for the catalog                  |
+| `--priority <N>`                           | Priority (default: 10; lower = higher precedence)      |
+| `--install-allowed / --no-install-allowed` | Whether extensions can be installed from this catalog  |
+| `--description <text>`                     | Optional description                                   |
 
 ```bash
 # Add an internal catalog that allows installs
@@ -504,13 +508,15 @@ specify extension catalog add \
   https://partner.example.com/spec-kit/catalog.json
 ```
 
-This creates or updates `.specify/extension-catalogs.yml`.
+* create OR update ".specify/extension-catalogs.yml"
 
-### Removing a Catalog
+### `specify extension catalog remove <name>` -- Removing a Catalog
 
 ```bash
 specify extension catalog remove internal
 ```
+
+* remove a catalog | project configuration
 
 ### Manual Config File
 
@@ -775,7 +781,9 @@ specify extension add --dev /path/to/extension
 1. Check spelling: `specify extension search jira`
 2. Refresh catalog: `specify extension search --help`
 3. Check internet connection
-4. Extension may not be published yet
+4. Extension may not be published yet OR EXISTING | ANOTHER catalog
+   * `specify extension catalog list`
+     * check the active catalogs
 
 ### Configuration Not Found
 
@@ -793,7 +801,7 @@ specify extension add --dev /path/to/extension
 
 3. Reinstall extension: `specify extension remove jira && specify extension add jira`
 
-### Command Not Available
+### extension command NOT AVAILABLE
 
 **Issue**: Extension command not appearing in coding agent
 
